@@ -1,7 +1,8 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidenav from "./components/Sidenav";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider defaultOpen={true}>
