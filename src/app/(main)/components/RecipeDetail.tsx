@@ -1,5 +1,4 @@
 "use client";
-
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -57,7 +56,12 @@ export default function RecipeDetail({ id }: { id: string }) {
         onServingsChange={setServings}
       />
       <Separator className="my-4 w-full" />
-      <RecipeIngredients steps={steps} ingredients={ingredients} />
+      <RecipeIngredients
+        steps={steps}
+        baseServings={BASE_SERVINGS}
+        servings={servings}
+        ingredients={ingredients}
+      />
     </div>
   );
 }

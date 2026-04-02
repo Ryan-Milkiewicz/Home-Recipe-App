@@ -9,10 +9,18 @@ type Ingredient = {
 
 type Props = {
   steps: string[];
+  servings: number;
+  baseServings: number;
   ingredients: Ingredient[];
 };
 
-export default function RecipeIngredients({ steps, ingredients }: Props) {
+export default function RecipeIngredients({
+  steps,
+  servings,
+  baseServings,
+  ingredients,
+}: Props) {
+  const scale = servings / baseServings;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
       <div>
@@ -20,9 +28,10 @@ export default function RecipeIngredients({ steps, ingredients }: Props) {
         {ingredients.map((ingredient, i) => (
           <div key={i} className="flex flex-row items-center gap-3 p-2">
             <Checkbox id={`ingredient-${i}`} name={`ingredient-${i}`} />
-            <span className="font-medium w-16">{`${ingredient.amount} ${
-              ingredient.unit ?? ""
-            }`}</span>
+            <span className="font-medium w-16 text-right">
+              {Math.round(ingredient.amount * scale * 10) / 10}
+              {ingredient.unit ? ` ${ingredient.unit}` : ""}
+            </span>
             <p className="text-md text-muted-foreground">{ingredient.name}</p>
           </div>
         ))}
