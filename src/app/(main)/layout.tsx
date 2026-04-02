@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -17,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               placeholder="Search recipes..."
             />
             <Button className="ml-auto" variant="outline">
-              Add Recipe
+              <Link href="/recipes/create">Add Recipe</Link>
             </Button>
           </header>
           <main className="flex-1 p-6">{children}</main>
