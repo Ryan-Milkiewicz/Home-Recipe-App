@@ -10,6 +10,20 @@ import RecipeIngredients from "./RecipeIngredients";
 
 const BASE_SERVINGS = 4;
 
+const steps = [
+  "Boil water in a large pot, add salt, and cook spaghetti until al dente.",
+  "In a separate pan, cook pancetta until crispy.",
+  "In a separate pan, cook pancetta until crispy.",
+  "Add the cooked spaghetti to the pan with the pancetta and toss to combine.",
+];
+
+const ingredients = [
+  { name: "spaghetti", amount: 400, unit: "g" },
+  { name: "guanciale", amount: 200, unit: "g" },
+  { name: "egg yolks", amount: 4 },
+  { name: "Pecorino Romano", amount: 100, unit: "g" },
+];
+
 export default function RecipeDetail({ id }: { id: string }) {
   const [servings, setServings] = useState(BASE_SERVINGS);
 
@@ -43,7 +57,7 @@ export default function RecipeDetail({ id }: { id: string }) {
         onServingsChange={setServings}
       />
       <Separator className="my-4 w-full" />
-      <RecipeIngredients />
+      <RecipeIngredients steps={steps} ingredients={ingredients} />
     </div>
   );
 }
