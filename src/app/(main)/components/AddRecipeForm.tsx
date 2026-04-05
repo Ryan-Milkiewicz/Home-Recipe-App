@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { IngredientField } from "./IngredientField";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -48,9 +49,7 @@ export default function AddRecipeForm() {
           </Field>
         </FieldGroup>
         <Separator className="my-6" />
-        <FieldGroup>
-          <FieldLabel htmlFor="ingredients">Ingredients</FieldLabel>
-        </FieldGroup>
+        <IngredientField />
       </form>
     </div>
   );
