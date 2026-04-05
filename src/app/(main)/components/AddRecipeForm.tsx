@@ -5,17 +5,64 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { StepField } from "./StepField";
 import { Textarea } from "@/components/ui/textarea";
+import { useForm } from "@tanstack/react-form";
+import * as z from "zod";
+
+const formSchema = z.object({
+  recipeTitle: z.string().min(5, "Recipe title must be at least 5 characters."),
+  // description: z
+  //   .string()
+  //   .min(5, "Recipe description must be at least 20 characters."),
+});
 
 export default function AddRecipeForm() {
+  const form = useForm({
+    defaultValues: {
+      recipeTitle: "",
+      // description: "",
+    },
+    validators: {
+      onSubmit: formSchema,
+    },
+    onSubmit: async ({ value }) => {
+      // TODO: add toasts for success
+      console.log("Form submitted successfully");
+      console.log(value);
+    },
+  });
   return (
     <div className="flex flex-col gap-6 max-w-5xl">
       <h1 className="text-2xl font-bold">Basic Info</h1>
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+        }}
+      >
         <FieldGroup>
-          <Field>
+          <form.Field name="recipeTitle">
+            {(field) => (
+              <Field>
+                <FieldLabel htmlFor="recipeTitle">Recipe Title</FieldLabel>
+                <Input
+                  id="recipeTitle"
+                  placeholder="Recipe Title"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-destructive">
+                    {field.state.meta.errors[0]?.message}
+                  </p>
+                )}
+              </Field>
+            )}
+          </form.Field>
+          {/* <Field>
             <FieldLabel htmlFor="recipeTitle">Recipe Title</FieldLabel>
             <Input id="recipeTitle" placeholder="Recipe Title" />
-          </Field>
+          </Field> */}
           <Field>
             <FieldLabel htmlFor="description">Description</FieldLabel>
             <Textarea
