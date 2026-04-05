@@ -3,6 +3,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { IngredientField } from "./IngredientField";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { StepField } from "./StepField";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function AddRecipeForm() {
@@ -50,6 +51,12 @@ export default function AddRecipeForm() {
         </FieldGroup>
         <Separator className="my-6" />
         <IngredientField />
+        <Separator className="my-6" />
+        <StepField />
+        <Separator className="my-6" />
+        <Button className="w-40 rounded-full" variant="outline" size="default">
+          Submit Recipe
+        </Button>
       </form>
     </div>
   );
