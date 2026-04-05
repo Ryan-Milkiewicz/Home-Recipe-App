@@ -13,6 +13,7 @@ const formSchema = z.object({
   recipeDescription: z
     .string()
     .min(5, "Recipe description must be at least 5 characters."),
+  prepTime: z.string().min(1, "Prep time must be at least 1 character"),
 });
 
 export default function AddRecipeForm() {
@@ -20,6 +21,7 @@ export default function AddRecipeForm() {
     defaultValues: {
       recipeTitle: "",
       recipeDescription: "",
+      prepTime: "",
     },
     validators: {
       onSubmit: formSchema,
@@ -80,10 +82,25 @@ export default function AddRecipeForm() {
             )}
           </form.Field>
           <div className="flex gap-4">
-            <Field className="flex-1">
-              <FieldLabel htmlFor="prepTime">Prep Time</FieldLabel>
-              <Input id="prepTime" placeholder="Prep Time" />
-            </Field>
+            <form.Field name="prepTime">
+              {(field) => (
+                <Field className="flex-1">
+                  <FieldLabel htmlFor="PrepTime">Prep Time</FieldLabel>
+                  <Input
+                    id="prepTime"
+                    placeholder="Prep Time"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  {field.state.meta.errors.length > 0 && (
+                    <p className="text-sm text-destructive">
+                      {field.state.meta.errors[0]?.message}
+                    </p>
+                  )}
+                </Field>
+              )}
+            </form.Field>
             <Field className="flex-1">
               <FieldLabel htmlFor="cookTime">Cook Time</FieldLabel>
               <Input id="cookTime" placeholder="Cook Time" />
