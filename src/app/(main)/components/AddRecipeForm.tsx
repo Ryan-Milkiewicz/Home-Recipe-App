@@ -9,11 +9,12 @@ import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 
 const formSchema = z.object({
-  recipeTitle: z.string().min(5, "Recipe title must be at least 5 characters."),
+  recipeTitle: z.string().min(5, "Recipe Title must be at least 5 characters."),
   recipeDescription: z
     .string()
-    .min(5, "Recipe description must be at least 5 characters."),
-  prepTime: z.string().min(1, "Prep time must be at least 1 character"),
+    .min(5, "Recipe Description must be at least 5 characters."),
+  prepTime: z.string().min(1, "Prep Time must be at least 1 character"),
+  cookTime: z.string().min(1, "Cook Time must be at least 1 character"),
 });
 
 export default function AddRecipeForm() {
@@ -22,6 +23,7 @@ export default function AddRecipeForm() {
       recipeTitle: "",
       recipeDescription: "",
       prepTime: "",
+      cookTime: "",
     },
     validators: {
       onSubmit: formSchema,
@@ -101,10 +103,29 @@ export default function AddRecipeForm() {
                 </Field>
               )}
             </form.Field>
-            <Field className="flex-1">
+            <form.Field name="cookTime">
+              {(field) => (
+                <Field className="flex-1">
+                  <FieldLabel htmlFor="PrepTime">Cook Time</FieldLabel>
+                  <Input
+                    id="cookTime"
+                    placeholder="Cook Time"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  {field.state.meta.errors.length > 0 && (
+                    <p className="text-sm text-destructive">
+                      {field.state.meta.errors[0]?.message}
+                    </p>
+                  )}
+                </Field>
+              )}
+            </form.Field>
+            {/* <Field className="flex-1">
               <FieldLabel htmlFor="cookTime">Cook Time</FieldLabel>
               <Input id="cookTime" placeholder="Cook Time" />
-            </Field>
+            </Field> */}
           </div>
           <div className="flex gap-4">
             <Field className="flex-1">
