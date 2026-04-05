@@ -10,16 +10,16 @@ import * as z from "zod";
 
 const formSchema = z.object({
   recipeTitle: z.string().min(5, "Recipe title must be at least 5 characters."),
-  // description: z
-  //   .string()
-  //   .min(5, "Recipe description must be at least 20 characters."),
+  recipeDescription: z
+    .string()
+    .min(5, "Recipe description must be at least 5 characters."),
 });
 
 export default function AddRecipeForm() {
   const form = useForm({
     defaultValues: {
       recipeTitle: "",
-      // description: "",
+      recipeDescription: "",
     },
     validators: {
       onSubmit: formSchema,
@@ -59,18 +59,26 @@ export default function AddRecipeForm() {
               </Field>
             )}
           </form.Field>
-          {/* <Field>
-            <FieldLabel htmlFor="recipeTitle">Recipe Title</FieldLabel>
-            <Input id="recipeTitle" placeholder="Recipe Title" />
-          </Field> */}
-          <Field>
-            <FieldLabel htmlFor="description">Description</FieldLabel>
-            <Textarea
-              id="description"
-              placeholder="A short description of the dish"
-              rows={4}
-            />
-          </Field>
+          <form.Field name="recipeDescription">
+            {(field) => (
+              <Field>
+                <FieldLabel htmlFor="recipeDescription">Description</FieldLabel>
+                <Textarea
+                  id="recipeDescription"
+                  placeholder="A short description for the dish"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  rows={4}
+                />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-destructive">
+                    {field.state.meta.errors[0]?.message}
+                  </p>
+                )}
+              </Field>
+            )}
+          </form.Field>
           <div className="flex gap-4">
             <Field className="flex-1">
               <FieldLabel htmlFor="prepTime">Prep Time</FieldLabel>
