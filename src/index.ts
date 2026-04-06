@@ -2,7 +2,7 @@ import "dotenv/config";
 import { drizzle } from "drizzle-orm/neon-http";
 import { ingredientTable, recipeTable, stepsTable } from "./db/schema";
 
-const db = drizzle(process.env.DATABASE_URL!);
+export const db = drizzle(process.env.DATABASE_URL!);
 
 async function seed() {
   // Seeding initial db values

@@ -1,36 +1,25 @@
+import { db } from "@/index";
 import RecipeCard from "../components/RecipeCard";
+import { recipeTable } from "@/db/schema";
 
-export default function Page() {
+export default async function Page() {
+  // TODO: add real tags
+  // TODO: add real images
+  const recipes = await db.select().from(recipeTable);
+  console.log(recipes);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-6">
-      <RecipeCard
-        id="1"
-        title="Spaghetti carbonara"
-        cookTime={30}
-        servings={4}
-        tag="Italian"
-      />
-      <RecipeCard
-        id="2"
-        title="Greek salad"
-        cookTime={10}
-        servings={2}
-        tag="Vegetarian"
-      />
-      <RecipeCard
-        id="3"
-        title="Grilled chicken with vegetables"
-        cookTime={10}
-        servings={2}
-        tag="Vegetarian"
-      />
-      <RecipeCard
-        id="4"
-        title="Steak with garlic butter"
-        cookTime={10}
-        servings={2}
-        tag="meat"
-      />
+      {recipes.map((recipe) => (
+        <RecipeCard
+          key={recipe.id}
+          id={recipe.id}
+          title={recipe.title}
+          description={recipe.description}
+          cookTime={recipe.cookTime}
+          servings={recipe.servings}
+          tag="test"
+        />
+      ))}
     </div>
   );
 }

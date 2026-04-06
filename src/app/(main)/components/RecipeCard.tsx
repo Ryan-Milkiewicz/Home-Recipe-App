@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 type Props = {
-  id: string;
+  id: number;
   title: string;
-  description?: string;
+  description: string;
   imageUrl?: string;
-  cookTime?: number;
-  servings?: number;
+  cookTime: number;
+  servings: number;
   tag?: string;
 };
 
@@ -41,7 +41,7 @@ export default function RecipeCard({
             </p>
           )}
           <div className="flex items-center gap-2 mt-1">
-            {cookTime && (
+            {cookTime != null && (
               <span className="text-xs text-muted-foreground">
                 {cookTime} min
               </span>
