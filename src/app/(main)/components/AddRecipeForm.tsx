@@ -206,6 +206,7 @@ export default function AddRecipeForm() {
               )}
             </form.Field>
           </div>
+          {/* TODO: add tags field */}
           {/* <form.Field name="tags">
             {(field) => (
               <Field>
