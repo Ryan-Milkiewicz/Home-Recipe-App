@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   integer,
   pgEnum,
@@ -29,7 +30,7 @@ export const ingredientTable = pgTable("ingredients", {
   unit: varchar({ length: 50 }).notNull(),
 });
 
-export const stepsTable = pgTable("steps", {
+export const stepTable = pgTable("steps", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   recipeId: integer()
     .notNull()
@@ -37,3 +38,23 @@ export const stepsTable = pgTable("steps", {
   stepNumber: integer().notNull(),
   step: text().notNull(),
 });
+
+// Relations
+export const recipeRelations = relations(recipeTable, ({ many }) => ({
+  ingredients: many(ingredientTable),
+  steps: many(stepTable),
+}));
+
+export const ingredientRelations = relations(ingredientTable, ({ one }) => ({
+  recipe: one(recipeTable, {
+    fields: [ingredientTable.recipeId],
+    references: [recipeTable.id],
+  }),
+}));
+
+export const stepsRelations = relations(stepTable, ({ one }) => ({
+  recipe: one(recipeTable, {
+    fields: [stepTable.recipeId],
+    references: [recipeTable.id],
+  }),
+}));

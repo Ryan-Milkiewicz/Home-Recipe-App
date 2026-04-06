@@ -23,7 +23,8 @@ const ingredients = [
   { name: "Pecorino Romano", amount: 100, unit: "g" },
 ];
 
-export default function RecipeDetail({ id }: { id: string }) {
+export default function RecipeDetail({ recipe }: { recipe: any }) {
+  // TODO: add type for recipe
   const [servings, setServings] = useState(BASE_SERVINGS);
 
   return (
@@ -36,17 +37,14 @@ export default function RecipeDetail({ id }: { id: string }) {
           Italian
         </Badge>
         <Badge className="px-3 py-1 text-sm" variant="secondary">
-          30 min
+          {recipe.cookTime} mins
         </Badge>
         <Badge className="px-3 py-1 text-sm" variant="secondary">
-          4 servings
+          {recipe.servings} servings
         </Badge>
       </div>
-      <h2 className="text-2xl font-semibold mt-4">Spaghetti Carbonara</h2>
-      <p className="mt-2 text-muted-foreground">
-        A classic Italian pasta dish made with eggs, cheese, pancetta, and
-        pepper.
-      </p>
+      <h2 className="text-2xl font-semibold mt-4">{recipe.title}</h2>
+      <p className="mt-2 text-muted-foreground">{recipe.description}</p>
       <Separator className="my-4 w-full" />
       <RecipeControls
         prepTime={10}
