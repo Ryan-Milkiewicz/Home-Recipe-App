@@ -1,41 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { IngredientRow } from "./IngredientRow";
 import { FieldGroup, FieldLabel } from "@/components/ui/field";
-import { useState } from "react";
-import { useForm } from "@tanstack/react-form";
-
-type IngredientRow = {
-  amount: string;
-  unit: string;
-  ingredientName: string;
-};
 
 type Props = {
   form: any;
 };
 
 export function IngredientField({ form }: Props) {
-  // const [ingredients, setIngredients] = useState<IngredientRow[]>([
-  //   { amount: "", unit: "", ingredientName: "" },
-  // ]);
-  // const addIngredient = () =>
-  //   setIngredients((prev) => [
-  //     ...prev,
-  //     { amount: "", unit: "", ingredientName: "" },
-  //   ]);
-
-  // const updateIngredient = (i: number, field: string, value: string) =>
-  //   setIngredients((prev) =>
-  //     prev.map((ing, idx) => (idx === i ? { ...ing, [field]: value } : ing)),
-  //   );
-
-  // const deleteIngredient = (i: number) => {
-  //   // Make sure there is at least 1 ingredient
-  //   if (ingredients.length > 1) {
-  //     setIngredients((prev) => prev.filter((_, idx) => idx !== i));
-  //   }
-  // };
-
   const getErrorMessage = (error: unknown): string =>
     typeof error === "string" ? error : ((error as any)?.message ?? "");
 
