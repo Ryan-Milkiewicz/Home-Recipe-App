@@ -13,6 +13,11 @@ type IngredientRowProps = {
     value: string,
   ) => void;
   onDelete: () => void;
+  errors?: {
+    amount?: string;
+    unit?: string;
+    ingredientName?: string;
+  };
 };
 
 export function IngredientRow({
@@ -21,6 +26,7 @@ export function IngredientRow({
   ingredientName,
   onChange,
   onDelete,
+  errors,
 }: IngredientRowProps) {
   return (
     <div className="flex gap-4">
@@ -31,6 +37,9 @@ export function IngredientRow({
           value={amount}
           onChange={(e) => onChange("amount", e.target.value)}
         />
+        {errors?.amount && (
+          <p className="text-sm text-destructive">{errors.amount}</p>
+        )}
       </Field>
       <Field className="w-24 shrink-0">
         <Input
@@ -39,6 +48,9 @@ export function IngredientRow({
           value={unit}
           onChange={(e) => onChange("unit", e.target.value)}
         />
+        {errors?.unit && (
+          <p className="text-sm text-destructive">{errors.unit}</p>
+        )}
       </Field>
       <Field className="flex-1 min-w-0">
         <Input
@@ -47,6 +59,9 @@ export function IngredientRow({
           value={ingredientName}
           onChange={(e) => onChange("ingredientName", e.target.value)}
         />
+        {errors?.ingredientName && (
+          <p className="text-sm text-destructive">{errors.ingredientName}</p>
+        )}
       </Field>
       <Button
         type="button"

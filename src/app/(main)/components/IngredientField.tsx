@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { IngredientRow } from "./IngredientRow";
 import { FieldGroup, FieldLabel } from "@/components/ui/field";
 import { useState } from "react";
+import { useForm } from "@tanstack/react-form";
 
 type IngredientRow = {
   amount: string;
@@ -9,7 +10,11 @@ type IngredientRow = {
   ingredientName: string;
 };
 
-export function IngredientField() {
+type Props = {
+  form: any;
+};
+
+export function IngredientField({ form }: Props) {
   const [ingredients, setIngredients] = useState<IngredientRow[]>([
     { amount: "", unit: "", ingredientName: "" },
   ]);
@@ -29,27 +34,108 @@ export function IngredientField() {
       setIngredients((prev) => prev.filter((_, idx) => idx !== i));
     }
   };
+
+  const getErrorMessage = (error: unknown): string =>
+    typeof error === "string" ? error : ((error as any)?.message ?? "");
+
   return (
-    <FieldGroup>
-      <FieldLabel>Ingredients</FieldLabel>
-      {ingredients.map((ingredient, index) => (
-        <IngredientRow
-          key={index}
-          amount={ingredient.amount}
-          unit={ingredient.unit}
-          ingredientName={ingredient.ingredientName}
-          onChange={(f, v) => updateIngredient(index, f, v)}
-          onDelete={() => deleteIngredient(index)}
-        />
-      ))}
-      <Button
-        type="button"
-        className="w-40 rounded-full"
-        variant="outline"
-        onClick={addIngredient}
-      >
-        Add Ingredient
-      </Button>
-    </FieldGroup>
+    <form.Field name="ingredients" mode="array">
+      {(field: any) => (
+        <FieldGroup>
+          <FieldLabel>Ingredients</FieldLabel>
+          {(
+            field.state.value as {
+              amount: string;
+              unit: string;
+              ingredientName: string;
+            }[]
+          ).map((_: unknown, index: number) => (
+            <form.Field key={index} name={`ingredients[${index}].amount`}>
+              {(amountField: any) => (
+                <form.Field name={`ingredients[${index}].unit`}>
+                  {(unitField: any) => (
+                    <form.Field name={`ingredients[${index}].ingredientName`}>
+                      {(nameField: any) => (
+                        <IngredientRow
+                          amount={amountField.state.value as string}
+                          unit={unitField.state.value as string}
+                          ingredientName={nameField.state.value as string}
+                          onChange={(f, v) => {
+                            if (f === "amount") amountField.handleChange(v);
+                            if (f === "unit") unitField.handleChange(v);
+                            if (f === "ingredientName")
+                              nameField.handleChange(v);
+                          }}
+                          onDelete={() => {
+                            if ((field.state.value as any[]).length > 1) {
+                              field.removeValue(index);
+                            }
+                          }}
+                          errors={{
+                            amount:
+                              amountField.state.meta.errors.length > 0
+                                ? getErrorMessage(
+                                    amountField.state.meta.errors[0],
+                                  )
+                                : undefined,
+                            unit:
+                              unitField.state.meta.errors.length > 0
+                                ? getErrorMessage(
+                                    unitField.state.meta.errors[0],
+                                  )
+                                : undefined,
+                            ingredientName:
+                              nameField.state.meta.errors.length > 0
+                                ? getErrorMessage(
+                                    nameField.state.meta.errors[0],
+                                  )
+                                : undefined,
+                          }}
+                        />
+                      )}
+                    </form.Field>
+                  )}
+                </form.Field>
+              )}
+            </form.Field>
+          ))}
+          <Button
+            type="button"
+            className="w-40 rounded-full"
+            variant="outline"
+            onClick={() =>
+              field.pushValue({
+                amount: "",
+                unit: "",
+                ingredientName: "",
+              } as never)
+            }
+          >
+            Add Ingredient
+          </Button>
+        </FieldGroup>
+      )}
+    </form.Field>
+    // <FieldGroup>
+    //   <FieldLabel>Ingredients</FieldLabel>
+    //   {ingredients.map((ingredient, index) => (
+    //     <IngredientRow
+    //       key={index}
+    //       amount={ingredient.amount}
+    //       unit={ingredient.unit}
+    //       ingredientName={ingredient.ingredientName}
+    //       onChange={(f, v) => updateIngredient(index, f, v)}
+    //       onDelete={() => deleteIngredient(index)}
+    //     />
+    //   ))}
+    //   <Button
+    //     type="button"
+    //     className="w-40 rounded-full"
+    //     variant="outline"
+    //     onClick={addIngredient}
+    //   >
+    //     Add Ingredient
+    //   </Button>
+    // </FieldGroup>
   );
 }

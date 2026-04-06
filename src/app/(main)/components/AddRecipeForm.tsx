@@ -28,8 +28,16 @@ const formSchema = z.object({
   difficulty: z.enum(["easy", "medium", "hard"], {
     message: "Please select a difficulty level",
   }),
+  ingredients: z
+    .array(
+      z.object({
+        amount: z.string().min(1, "Amount is required"),
+        unit: z.string().min(1, "Unit is required"),
+        ingredientName: z.string().min(1, "Ingredient name is required"),
+      }),
+    )
+    .min(1, "At least one ingredient is required"),
 });
-
 export default function AddRecipeForm() {
   const form = useForm({
     defaultValues: {
@@ -39,6 +47,7 @@ export default function AddRecipeForm() {
       cookTime: "",
       servings: "",
       difficulty: "" as "easy" | "medium" | "hard",
+      ingredients: [{ amount: "", unit: "", ingredientName: "" }],
     },
     validators: {
       onSubmit: formSchema,
@@ -218,7 +227,7 @@ export default function AddRecipeForm() {
           </form.Field> */}
         </FieldGroup>
         <Separator className="my-6" />
-        <IngredientField />
+        <IngredientField form={form} />
         <Separator className="my-6" />
         <StepField />
         <Separator className="my-6" />
