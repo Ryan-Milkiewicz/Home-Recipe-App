@@ -37,6 +37,13 @@ const formSchema = z.object({
       }),
     )
     .min(1, "At least one ingredient is required"),
+  steps: z
+    .array(
+      z.object({
+        step: z.string().min(1, "Step cannot be empty"),
+      }),
+    )
+    .min(1, "At least one step is required"),
 });
 export default function AddRecipeForm() {
   const form = useForm({
@@ -48,6 +55,7 @@ export default function AddRecipeForm() {
       servings: "",
       difficulty: "" as "easy" | "medium" | "hard",
       ingredients: [{ amount: "", unit: "", ingredientName: "" }],
+      steps: [{ step: "" }],
     },
     validators: {
       onSubmit: formSchema,
@@ -165,13 +173,6 @@ export default function AddRecipeForm() {
                       {field.state.meta.errors[0]?.message}
                     </p>
                   )}
-                  {/* {field.state.meta.errors.length > 0 && (
-                    <p className="text-sm text-destructive">
-                      {typeof field.state.meta.errors[0] === "string"
-                        ? field.state.meta.errors[0]
-                        : field.state.meta.errors[0]?.message}
-                    </p>
-                  )} */}
                 </Field>
               )}
             </form.Field>
@@ -230,7 +231,7 @@ export default function AddRecipeForm() {
         <Separator className="my-6" />
         <IngredientField form={form} />
         <Separator className="my-6" />
-        <StepField />
+        <StepField form={form} />
         <Separator className="my-6" />
         <Button
           type="submit"

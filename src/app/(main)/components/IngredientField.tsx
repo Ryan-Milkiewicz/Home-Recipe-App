@@ -117,26 +117,5 @@ export function IngredientField({ form }: Props) {
         </FieldGroup>
       )}
     </form.Field>
-    // <FieldGroup>
-    //   <FieldLabel>Ingredients</FieldLabel>
-    //   {ingredients.map((ingredient, index) => (
-    //     <IngredientRow
-    //       key={index}
-    //       amount={ingredient.amount}
-    //       unit={ingredient.unit}
-    //       ingredientName={ingredient.ingredientName}
-    //       onChange={(f, v) => updateIngredient(index, f, v)}
-    //       onDelete={() => deleteIngredient(index)}
-    //     />
-    //   ))}
-    //   <Button
-    //     type="button"
-    //     className="w-40 rounded-full"
-    //     variant="outline"
-    //     onClick={addIngredient}
-    //   >
-    //     Add Ingredient
-    //   </Button>
-    // </FieldGroup>
   );
 }

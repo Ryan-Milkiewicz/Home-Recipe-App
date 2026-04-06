@@ -10,9 +10,16 @@ type StepRowProps = {
   step: string;
   onChange: (value: string) => void;
   onDelete: () => void;
+  error?: string;
 };
 
-export function StepRow({ index, step, onChange, onDelete }: StepRowProps) {
+export function StepRow({
+  index,
+  step,
+  onChange,
+  onDelete,
+  error,
+}: StepRowProps) {
   return (
     <div className="flex gap-4">
       <Badge
@@ -29,6 +36,7 @@ export function StepRow({ index, step, onChange, onDelete }: StepRowProps) {
           onChange={(e) => onChange(e.target.value)}
           rows={20}
         />
+        {error && <p className="text-sm text-destructive">{error}</p>}
       </Field>
       <Button
         type="button"
