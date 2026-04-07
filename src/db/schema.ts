@@ -58,7 +58,6 @@ export const recipeRelations = relations(recipeTable, ({ many }) => ({
   ingredients: many(ingredientTable),
   steps: many(stepTable),
   recipeTags: many(recipeTagTable),
-  //tags: many(tagTable),
 }));
 
 export const ingredientRelations = relations(ingredientTable, ({ one }) => ({

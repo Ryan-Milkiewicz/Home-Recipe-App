@@ -1,4 +1,6 @@
+import * as z from "zod";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { IngredientField } from "./IngredientField";
@@ -17,8 +19,8 @@ import { StepField } from "./StepField";
 import { TagsComboBox } from "./TagsComboBox";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "@tanstack/react-form";
-import * as z from "zod";
 import { getTags } from "@/actions/tags";
+import { createRecipe } from "@/actions/recipes";
 
 const formSchema = z.object({
   recipeTitle: z.string().min(5, "Recipe Title must be at least 5 characters."),
@@ -50,6 +52,7 @@ const formSchema = z.object({
     .min(1, "At least one step is required"),
 });
 export default function AddRecipeForm() {
+  const router = useRouter();
   const [availableTags, setAvailableTags] = useState<string[]>([]);
   const form = useForm({
     defaultValues: {
@@ -69,8 +72,9 @@ export default function AddRecipeForm() {
     },
     onSubmit: async ({ value }) => {
       // TODO: add toasts for success
-      console.log("Form submitted successfully");
-      console.log(value);
+      const recipe = await createRecipe(value);
+      console.log("Recipe created", recipe);
+      router.push("/recipes");
     },
   });
 
