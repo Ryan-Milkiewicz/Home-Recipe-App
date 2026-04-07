@@ -1,15 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-
-type Ingredient = {
-  ingredientName: string;
-  amount: number;
-  unit?: string;
-};
-
-type Step = {
-  step: string;
-};
+import { Ingredient, Step } from "@/lib/types/recipe";
 
 type Props = {
   steps: Step[];

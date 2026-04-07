@@ -4,11 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
+import { Recipe } from "@/lib/types/recipe";
 import RecipeControls from "./RecipeControls";
 import RecipeIngredients from "./RecipeIngredients";
 
-export default function RecipeDetail({ recipe }: { recipe: any }) {
-  // TODO: add type for recipe
+export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
   const BASE_SERVINGS = recipe.servings;
   const [servings, setServings] = useState(BASE_SERVINGS);
   const { ingredients, steps } = recipe;

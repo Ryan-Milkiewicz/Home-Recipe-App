@@ -26,7 +26,7 @@ export const ingredientTable = pgTable("ingredients", {
     .notNull()
     .references(() => recipeTable.id, { onDelete: "cascade" }),
   ingredientName: varchar({ length: 100 }).notNull(),
-  amount: varchar({ length: 50 }).notNull(),
+  amount: integer().notNull(),
   unit: varchar({ length: 50 }).notNull(),
 });
 
