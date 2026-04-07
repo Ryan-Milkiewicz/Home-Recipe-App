@@ -2,7 +2,6 @@ import { db } from "@/index";
 import RecipeCard from "../components/RecipeCard";
 
 export default async function Page() {
-  // TODO: add real tags
   // TODO: add real images
   const recipes = await db.query.recipeTable.findMany({
     with: {

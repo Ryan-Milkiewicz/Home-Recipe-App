@@ -17,13 +17,13 @@ export default function RecipeIngredients({
 }: Props) {
   const scale = servings / baseServings;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full items-start">
       <div>
         <h2 className="text-2xl font-extrabold mt-4">Ingredients</h2>
         {ingredients.map((ingredient, i) => (
           <div key={i} className="flex flex-row items-center gap-3 p-2">
             <Checkbox id={`ingredient-${i}`} name={`ingredient-${i}`} />
-            <span className="font-medium w-16 text-right">
+            <span className="font-medium text-right">
               {Math.round(ingredient.amount * scale * 10) / 10}
               {ingredient.unit ? ` ${ingredient.unit}` : ""}
             </span>
