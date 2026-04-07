@@ -9,7 +9,7 @@ export type Recipe = {
   createdAt: Date;
   ingredients: Ingredient[];
   steps: Step[];
-  //tags?: Tag[];
+  tags?: Tag[];
 };
 
 export type Ingredient = {

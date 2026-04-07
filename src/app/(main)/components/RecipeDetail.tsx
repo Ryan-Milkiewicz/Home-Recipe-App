@@ -11,7 +11,7 @@ import RecipeIngredients from "./RecipeIngredients";
 export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
   const BASE_SERVINGS = recipe.servings;
   const [servings, setServings] = useState(BASE_SERVINGS);
-  const { ingredients, steps } = recipe;
+  const { ingredients, steps, tags } = recipe;
 
   return (
     <div className="flex flex-col items-start justify-start p-6">
@@ -19,9 +19,12 @@ export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
         <CardDescription className="text-6xl">🍽️</CardDescription>
       </Card>
       <div className="flex flex-wrap gap-2 mt-6">
-        <Badge className="px-3 py-1 text-sm" variant="secondary">
-          Italian
-        </Badge>
+        {tags &&
+          tags?.map((t) => (
+            <Badge key={t.id} className="px-3 py-1 text-sm" variant="secondary">
+              {t.name}
+            </Badge>
+          ))}
         <Badge className="px-3 py-1 text-sm" variant="secondary">
           {recipe.cookTime + recipe.prepTime} mins
         </Badge>
