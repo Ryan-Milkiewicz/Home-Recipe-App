@@ -1,13 +1,14 @@
 import Link from "next/link";
+import { Tag } from "@/lib/types/recipe";
 
 type Props = {
-  id: string;
+  id: number;
   title: string;
-  description?: string;
+  description: string;
   imageUrl?: string;
-  cookTime?: number;
-  servings?: number;
-  tag?: string;
+  cookTime: number;
+  servings: number;
+  tags?: Tag[];
 };
 
 export default function RecipeCard({
@@ -17,7 +18,7 @@ export default function RecipeCard({
   imageUrl,
   cookTime,
   servings,
-  tag,
+  tags,
 }: Props) {
   return (
     <Link href={`/recipes/${id}`}>
@@ -41,7 +42,7 @@ export default function RecipeCard({
             </p>
           )}
           <div className="flex items-center gap-2 mt-1">
-            {cookTime && (
+            {cookTime != null && (
               <span className="text-xs text-muted-foreground">
                 {cookTime} min
               </span>
@@ -51,10 +52,17 @@ export default function RecipeCard({
                 · {servings} servings
               </span>
             )}
-            {tag && (
-              <span className="ml-auto text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded-full">
-                {tag}
-              </span>
+            {tags && (
+              <>
+                {tags.map((t) => (
+                  <span
+                    key={t.id}
+                    className="ml-auto text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded-full"
+                  >
+                    {t.name}
+                  </span>
+                ))}
+              </>
             )}
           </div>
         </div>
