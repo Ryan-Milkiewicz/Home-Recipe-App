@@ -2,13 +2,17 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 
 type Ingredient = {
-  name: string;
+  ingredientName: string;
   amount: number;
   unit?: string;
 };
 
+type Step = {
+  step: string;
+};
+
 type Props = {
-  steps: string[];
+  steps: Step[];
   servings: number;
   baseServings: number;
   ingredients: Ingredient[];
@@ -32,7 +36,9 @@ export default function RecipeIngredients({
               {Math.round(ingredient.amount * scale * 10) / 10}
               {ingredient.unit ? ` ${ingredient.unit}` : ""}
             </span>
-            <p className="text-md text-muted-foreground">{ingredient.name}</p>
+            <p className="text-md text-muted-foreground">
+              {ingredient.ingredientName}
+            </p>
           </div>
         ))}
       </div>
@@ -44,7 +50,9 @@ export default function RecipeIngredients({
             <Badge className="px-2 py-3 text-lg shrink-0" variant="secondary">
               {i + 1}
             </Badge>
-            <p className="text-md text-muted-foreground inline-block">{step}</p>
+            <p className="text-md text-muted-foreground inline-block">
+              {step.step}
+            </p>
           </div>
         ))}
       </div>

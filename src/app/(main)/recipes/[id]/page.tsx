@@ -21,12 +21,13 @@ export default async function Page({
     with: {
       ingredients: true,
       steps: {
+        columns: { step: true },
         orderBy: (steps, { asc }) => [asc(steps.stepNumber)],
       },
     },
   });
 
-  console.log(recipe);
+  // console.log(recipe);
 
   return <RecipeDetail recipe={recipe} />;
 }
