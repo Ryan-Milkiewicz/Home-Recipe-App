@@ -18,6 +18,9 @@ export default async function Page({
         columns: { step: true },
         orderBy: (steps, { asc }) => [asc(steps.stepNumber)],
       },
+      tags: {
+        columns: { id: true, name: true },
+      },
     },
   })) as Recipe;
 

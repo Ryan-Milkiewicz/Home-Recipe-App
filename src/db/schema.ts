@@ -39,10 +39,19 @@ export const stepTable = pgTable("steps", {
   step: text().notNull(),
 });
 
+export const tagTable = pgTable("tags", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  name: varchar({ length: 100 }).notNull(),
+  recipeId: integer()
+    .notNull()
+    .references(() => recipeTable.id, { onDelete: "cascade" }),
+});
+
 // Relations
 export const recipeRelations = relations(recipeTable, ({ many }) => ({
   ingredients: many(ingredientTable),
   steps: many(stepTable),
+  tags: many(tagTable),
 }));
 
 export const ingredientRelations = relations(ingredientTable, ({ one }) => ({
@@ -55,6 +64,13 @@ export const ingredientRelations = relations(ingredientTable, ({ one }) => ({
 export const stepsRelations = relations(stepTable, ({ one }) => ({
   recipe: one(recipeTable, {
     fields: [stepTable.recipeId],
+    references: [recipeTable.id],
+  }),
+}));
+
+export const tagRelations = relations(tagTable, ({ one }) => ({
+  recipe: one(recipeTable, {
+    fields: [tagTable.recipeId],
     references: [recipeTable.id],
   }),
 }));

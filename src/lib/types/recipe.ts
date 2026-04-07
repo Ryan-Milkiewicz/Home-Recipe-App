@@ -9,6 +9,7 @@ export type Recipe = {
   createdAt: Date;
   ingredients: Ingredient[];
   steps: Step[];
+  //tags?: Tag[];
 };
 
 export type Ingredient = {
@@ -20,6 +21,11 @@ export type Ingredient = {
 
 export type Step = {
   step: string;
+};
+
+export type Tag = {
+  id: number;
+  name: string;
 };
 
 export type Difficulty = "easy" | "medium" | "hard";
