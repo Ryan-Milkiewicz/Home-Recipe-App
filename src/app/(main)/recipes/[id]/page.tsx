@@ -10,19 +10,27 @@ export default async function Page({
   params: Promise<{ id: number }>;
 }) {
   const { id } = await params;
-  const recipe = (await db.query.recipeTable.findFirst({
+  const result = await db.query.recipeTable.findFirst({
     where: eq(recipeTable.id, id),
     with: {
       ingredients: true,
       steps: {
-        columns: { step: true },
         orderBy: (steps, { asc }) => [asc(steps.stepNumber)],
       },
-      tags: {
-        columns: { id: true, name: true },
+      recipeTags: {
+        with: {
+          tag: {
+            columns: { id: true, name: true },
+          },
+        },
       },
     },
-  })) as Recipe;
+  });
+
+  const recipe = {
+    ...result!,
+    tags: result!.recipeTags.map((rt) => rt.tag),
+  } as Recipe;
 
   return <RecipeDetail recipe={recipe} />;
 }

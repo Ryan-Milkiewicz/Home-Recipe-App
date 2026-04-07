@@ -41,17 +41,24 @@ export const stepTable = pgTable("steps", {
 
 export const tagTable = pgTable("tags", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 100 }).notNull(),
+  name: varchar({ length: 100 }).notNull().unique(),
+});
+
+export const recipeTagTable = pgTable("recipe_tags", {
   recipeId: integer()
     .notNull()
     .references(() => recipeTable.id, { onDelete: "cascade" }),
+  tagId: integer()
+    .notNull()
+    .references(() => tagTable.id, { onDelete: "cascade" }),
 });
 
 // Relations
 export const recipeRelations = relations(recipeTable, ({ many }) => ({
   ingredients: many(ingredientTable),
   steps: many(stepTable),
-  tags: many(tagTable),
+  recipeTags: many(recipeTagTable),
+  //tags: many(tagTable),
 }));
 
 export const ingredientRelations = relations(ingredientTable, ({ one }) => ({
@@ -68,9 +75,17 @@ export const stepsRelations = relations(stepTable, ({ one }) => ({
   }),
 }));
 
-export const tagRelations = relations(tagTable, ({ one }) => ({
+export const tagRelations = relations(tagTable, ({ many }) => ({
+  recipeTags: many(recipeTagTable),
+}));
+
+export const recipeTagRelations = relations(recipeTagTable, ({ one }) => ({
   recipe: one(recipeTable, {
-    fields: [tagTable.recipeId],
+    fields: [recipeTagTable.recipeId],
     references: [recipeTable.id],
+  }),
+  tag: one(tagTable, {
+    fields: [recipeTagTable.tagId],
+    references: [tagTable.id],
   }),
 }));

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { IngredientField } from "./IngredientField";
@@ -13,9 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StepField } from "./StepField";
+import { TagsComboBox } from "./TagsComboBox";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
+import { getTags } from "@/actions/tags";
 
 const formSchema = z.object({
   recipeTitle: z.string().min(5, "Recipe Title must be at least 5 characters."),
@@ -28,6 +31,7 @@ const formSchema = z.object({
   difficulty: z.enum(["easy", "medium", "hard"], {
     message: "Please select a difficulty level",
   }),
+  tags: z.array(z.string()),
   ingredients: z
     .array(
       z.object({
@@ -46,6 +50,7 @@ const formSchema = z.object({
     .min(1, "At least one step is required"),
 });
 export default function AddRecipeForm() {
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
   const form = useForm({
     defaultValues: {
       recipeTitle: "",
@@ -54,6 +59,7 @@ export default function AddRecipeForm() {
       cookTime: "",
       servings: "",
       difficulty: "" as "easy" | "medium" | "hard",
+      tags: [] as string[],
       ingredients: [{ amount: "", unit: "", ingredientName: "" }],
       steps: [{ step: "" }],
     },
@@ -67,6 +73,12 @@ export default function AddRecipeForm() {
       console.log(value);
     },
   });
+
+  useEffect(() => {
+    getTags().then((tags) => {
+      setAvailableTags(tags.map((t) => t.name));
+    });
+  }, []);
   return (
     <div className="flex flex-col gap-6 max-w-5xl">
       <h1 className="text-2xl font-bold">Basic Info</h1>
@@ -207,26 +219,18 @@ export default function AddRecipeForm() {
               )}
             </form.Field>
           </div>
-          {/* TODO: add tags field */}
-          {/* <form.Field name="tags">
+          <form.Field name="tags">
             {(field) => (
-              <Field>
+              <Field className="flex-1">
                 <FieldLabel htmlFor="tags">Tags</FieldLabel>
-                <Input
-                  id="tags"
-                  placeholder="Italian, weeknight, pasta..."
+                <TagsComboBox
                   value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
+                  availableTags={availableTags}
+                  onChange={(tags) => field.handleChange(tags)}
                 />
-                {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-destructive">
-                    {field.state.meta.errors[0]?.message}
-                  </p>
-                )}
               </Field>
             )}
-          </form.Field> */}
+          </form.Field>
         </FieldGroup>
         <Separator className="my-6" />
         <IngredientField form={form} />

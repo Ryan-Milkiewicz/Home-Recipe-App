@@ -6,8 +6,12 @@ export default async function Page() {
   // TODO: add real images
   const recipes = await db.query.recipeTable.findMany({
     with: {
-      tags: {
-        columns: { id: true, name: true },
+      recipeTags: {
+        with: {
+          tag: {
+            columns: { id: true, name: true },
+          },
+        },
       },
     },
   });
@@ -22,7 +26,7 @@ export default async function Page() {
           description={recipe.description}
           cookTime={recipe.cookTime}
           servings={recipe.servings}
-          tags={recipe.tags}
+          tags={recipe.recipeTags.map((rt) => rt.tag)}
         />
       ))}
     </div>
