@@ -16,13 +16,13 @@ export async function ScrapeRecipe(url: string) {
     const json = JSON.parse(script.text);
 
     // Handle both direct and nested (@graph) schema
-    // const data =
-    //   json["@type"] === "Recipe"
-    //     ? json
-    //     : json["@graph"]?.find((n: any) => n["@type"] === "Recipe");
+    const data =
+      json["@type"] === "Recipe"
+        ? json
+        : json["@graph"]?.find((n: any) => n["@type"] === "Recipe");
 
-    //if (!data) continue;
-    return normalizeRecipe(json);
+    if (!data) continue;
+    return normalizeRecipe(data);
   }
 }
 
