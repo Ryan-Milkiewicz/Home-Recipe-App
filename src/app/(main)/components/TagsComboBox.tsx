@@ -20,7 +20,7 @@ type Props = {
   onChange: (tags: string[]) => void;
 };
 
-export function TagsComboBox({ value, availableTags, onChange }: Props) {
+export function TagsComboBox({ value = [], availableTags, onChange }: Props) {
   const anchor = useComboboxAnchor();
 
   // The available tags

@@ -29,7 +29,7 @@ export async function createRecipe(value: any) {
       (i: { ingredientName: string; amount: number; unit: string }) => ({
         recipeId: recipe.id,
         ingredientName: i.ingredientName,
-        amount: i.amount,
+        amount: Number(i.amount),
         unit: i.unit,
       }),
     ),

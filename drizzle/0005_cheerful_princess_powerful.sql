@@ -1,0 +1,1 @@
+ALTER TABLE "ingredients" ALTER COLUMN "amount" SET DATA TYPE numeric(8, 3);

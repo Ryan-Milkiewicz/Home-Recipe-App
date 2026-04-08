@@ -22,6 +22,27 @@
       "when": 1775582278415,
       "tag": "0002_motionless_zarek",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1775665818663,
+      "tag": "0003_petite_shiva",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1775668763603,
+      "tag": "0004_quiet_ezekiel_stane",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1775668837376,
+      "tag": "0005_cheerful_princess_powerful",
+      "breakpoints": true
     }
   ]
 }

@@ -1,18 +1,20 @@
 import { relations } from "drizzle-orm";
 import {
   integer,
+  numeric,
   pgEnum,
   pgTable,
   text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { Jersey_10 } from "next/font/google";
 export const difficultyEnum = pgEnum("difficulty", ["easy", "medium", "hard"]);
 
 export const recipeTable = pgTable("recipes", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   title: varchar({ length: 100 }).notNull(),
-  description: varchar({ length: 255 }).notNull(),
+  description: varchar({ length: 1000 }).notNull(),
   prepTime: integer().notNull(),
   cookTime: integer().notNull(),
   servings: integer().notNull(),
@@ -26,7 +28,7 @@ export const ingredientTable = pgTable("ingredients", {
     .notNull()
     .references(() => recipeTable.id, { onDelete: "cascade" }),
   ingredientName: varchar({ length: 100 }).notNull(),
-  amount: integer().notNull(),
+  amount: numeric({ precision: 8, scale: 3 }).notNull(),
   unit: varchar({ length: 50 }).notNull(),
 });
 

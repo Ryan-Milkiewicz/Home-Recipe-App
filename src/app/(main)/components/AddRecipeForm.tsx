@@ -22,6 +22,11 @@ import { useForm } from "@tanstack/react-form";
 import { getTags } from "@/actions/tags";
 import { createRecipe } from "@/actions/recipes";
 
+type Props = {
+  // TODO: Create scraped data type
+  defaultValues?: any | null;
+};
+
 const formSchema = z.object({
   recipeTitle: z.string().min(5, "Recipe Title must be at least 5 characters."),
   recipeDescription: z
@@ -51,18 +56,18 @@ const formSchema = z.object({
     )
     .min(1, "At least one step is required"),
 });
-export default function AddRecipeForm() {
+export default function AddRecipeForm({ defaultValues }: Props) {
   const router = useRouter();
   const [availableTags, setAvailableTags] = useState<string[]>([]);
   const form = useForm({
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       recipeTitle: "",
       recipeDescription: "",
-      prepTime: "",
-      cookTime: "",
-      servings: "",
+      prepTime: defaultValues?.prepTime ?? "",
+      cookTime: defaultValues?.cookTime ?? "",
+      servings: defaultValues?.servings ?? "",
       difficulty: "" as "easy" | "medium" | "hard",
-      tags: [] as string[],
+      tags: defaultValues?.tags ?? [],
       ingredients: [{ amount: "", unit: "", ingredientName: "" }],
       steps: [{ step: "" }],
     },
