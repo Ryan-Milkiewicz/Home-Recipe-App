@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { decimalToFraction } from "@/lib/helper";
 import { Ingredient, Step } from "@/lib/types/recipe";
 
 type Props = {
@@ -24,7 +25,7 @@ export default function RecipeIngredients({
           <div key={i} className="flex flex-row items-center gap-3 p-2">
             <Checkbox id={`ingredient-${i}`} name={`ingredient-${i}`} />
             <span className="font-medium text-right">
-              {Math.round(ingredient.amount * scale * 10) / 10}
+              {decimalToFraction(ingredient.amount * scale)}
               {ingredient.unit ? ` ${ingredient.unit}` : ""}
             </span>
             <p className="text-md text-muted-foreground">

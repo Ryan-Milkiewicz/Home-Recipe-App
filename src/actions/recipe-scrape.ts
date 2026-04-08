@@ -59,7 +59,6 @@ function parseIngredients(ingredients: any[]) {
   if (!ingredients) return [];
 
   return ingredients.map((ing) => {
-    // normalize unicode fractions first: "1¾cups" → "1 3/4 cups"
     const normalized = normalizeUnicodeFractions(ing).trim();
     const parts = normalized.split(/\s+/);
 
@@ -71,12 +70,9 @@ function parseIngredients(ingredients: any[]) {
     if (parts.length >= 2 && parts[1].includes("/")) {
       const whole = parseFloat(parts[0]);
       const fraction = parts[1];
-      //const fraction = fractionToDecimal(parts[1]);
-      //amount = (whole + fraction).toFixed(3);
       amount = `${whole} ${fraction}`;
       nameStart = 2;
     } else {
-      //amount = fractionToDecimal(parts[0]).toFixed(3);
       amount = parts[0];
       nameStart = 1;
     }
@@ -87,19 +83,6 @@ function parseIngredients(ingredients: any[]) {
     return { amount, unit, ingredientName };
   });
 }
-
-// function parseIngredients(ingredients: any[]) {
-//   console.log("Raw ingredients:", ingredients);
-//   if (!ingredients) return [];
-//   return ingredients.map((ing) => {
-//     const parts = ing.split(" ");
-//     return {
-//       amount: parts[0] ?? "",
-//       unit: parts[1] ?? "",
-//       ingredientName: parts.slice(2).join(" ") ?? "",
-//     };
-//   });
-// }
 
 const unicodeFractions: Record<string, string> = {
   "¼": "1/4",

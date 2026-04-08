@@ -1,5 +1,4 @@
 "use server";
-"use server";
 import { db } from "@/index";
 import {
   recipeTable,
@@ -29,7 +28,7 @@ export async function createRecipe(value: any) {
       (i: { ingredientName: string; amount: number; unit: string }) => ({
         recipeId: recipe.id,
         ingredientName: i.ingredientName,
-        amount: Number(i.amount),
+        amount: toDecimal(i.amount),
         unit: i.unit,
       }),
     ),
@@ -60,6 +59,25 @@ export async function createRecipe(value: any) {
       });
     }
   }
-
   return recipe;
+}
+
+function toDecimal(amount: string | number): number {
+  if (typeof amount === "number") return amount;
+  const parts = amount.trim().split(" ");
+
+  if (parts.length === 2) {
+    // "1 3/4" → whole + fraction
+    const whole = parseFloat(parts[0]);
+    const [num, denom] = parts[1].split("/");
+    return whole + parseFloat(num) / parseFloat(denom);
+  }
+
+  if (parts[0].includes("/")) {
+    // "3/4" → just a fraction
+    const [num, denom] = parts[0].split("/");
+    return parseFloat(num) / parseFloat(denom);
+  }
+
+  return parseFloat(parts[0]);
 }

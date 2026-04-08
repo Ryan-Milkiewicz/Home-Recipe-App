@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -32,9 +32,18 @@ const formSchema = z.object({
   recipeDescription: z
     .string()
     .min(5, "Recipe Description must be at least 5 characters."),
-  prepTime: z.string().min(1, "Prep Time must be at least 1 character"),
-  cookTime: z.string().min(1, "Cook Time must be at least 1 character"),
-  servings: z.string().trim().min(1, "Servings must be at least 1 character"),
+  prepTime: z.coerce
+    .number()
+    .gte(1, "Prep Time must be at least 1 character")
+    .positive("Prep Time must be a positive number"),
+  cookTime: z.coerce
+    .number()
+    .gte(1, "Cook Time must be at least 1 character")
+    .positive("Cook Time must be a positive number"),
+  servings: z.coerce
+    .number()
+    .gte(1, "Servings must be at least 1 character")
+    .positive("Servings must be a positive number"),
   difficulty: z.enum(["easy", "medium", "hard"], {
     message: "Please select a difficulty level",
   }),
@@ -59,17 +68,21 @@ const formSchema = z.object({
 export default function AddRecipeForm({ defaultValues }: Props) {
   const router = useRouter();
   const [availableTags, setAvailableTags] = useState<string[]>([]);
+  const [isPending, startTransition] = useTransition();
   const form = useForm({
-    defaultValues: defaultValues ?? {
-      recipeTitle: "",
-      recipeDescription: "",
-      prepTime: defaultValues?.prepTime ?? "",
-      cookTime: defaultValues?.cookTime ?? "",
-      servings: defaultValues?.servings ?? "",
-      difficulty: "" as "easy" | "medium" | "hard",
+    defaultValues: {
+      recipeTitle: defaultValues?.recipeTitle ?? "",
+      recipeDescription: defaultValues?.recipeDescription ?? "",
+      prepTime: defaultValues?.prepTime ?? 0,
+      cookTime: defaultValues?.cookTime ?? 0,
+      servings: defaultValues?.servings ?? 0,
+      difficulty:
+        defaultValues?.difficulty ?? ("" as "easy" | "medium" | "hard"),
       tags: defaultValues?.tags ?? [],
-      ingredients: [{ amount: "", unit: "", ingredientName: "" }],
-      steps: [{ step: "" }],
+      ingredients: defaultValues?.ingredients ?? [
+        { amount: "", unit: "", ingredientName: "" },
+      ],
+      steps: defaultValues?.steps ?? [{ step: "" }],
     },
     validators: {
       onSubmit: formSchema,
@@ -77,9 +90,14 @@ export default function AddRecipeForm({ defaultValues }: Props) {
     },
     onSubmit: async ({ value }) => {
       // TODO: add toasts for success
-      const recipe = await createRecipe(value);
-      console.log("Recipe created", recipe);
-      router.push("/recipes");
+      startTransition(async () => {
+        try {
+          await createRecipe(value);
+          router.push("/recipes");
+        } catch (err) {
+          console.error("Failed to create recipe:", err);
+        }
+      });
     },
   });
 
@@ -251,8 +269,9 @@ export default function AddRecipeForm({ defaultValues }: Props) {
           className="w-40 rounded-full"
           variant="outline"
           size="default"
+          disabled={isPending}
         >
-          Submit Recipe
+          {isPending ? "Saving..." : "Save Recipe"}
         </Button>
       </form>
     </div>
