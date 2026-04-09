@@ -32,6 +32,7 @@ export default function RecipeCard({
               alt={title}
               className="object-cover"
               priority
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
           ) : (
             "🍽️"

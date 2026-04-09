@@ -34,6 +34,11 @@ export default async function Page({
     tags: result!.recipeTags.map((rt) => rt.tag),
   } as Recipe;
 
+  const editHandler = async (id: number) => {
+    "use server";
+    redirect(`/recipes/${id}/edit`);
+  };
+
   const deleteHandler = async (id: number) => {
     "use server";
     try {
@@ -45,5 +50,11 @@ export default async function Page({
     redirect("/recipes");
   };
 
-  return <RecipeDetail recipe={recipe} onDelete={deleteHandler} />;
+  return (
+    <RecipeDetail
+      recipe={recipe}
+      onDelete={deleteHandler}
+      onEdit={editHandler}
+    />
+  );
 }

@@ -1,5 +1,6 @@
 "use server";
 import { db } from "@/index";
+import { eq } from "drizzle-orm";
 import {
   recipeTable,
   ingredientTable,
@@ -61,6 +62,63 @@ export async function createRecipe(value: any) {
       });
     }
   }
+  return recipe;
+}
+
+export async function editRecipe(id: number, value: any) {
+  // Update recipe
+  const [recipe] = await db
+    .update(recipeTable)
+    .set({
+      title: value.recipeTitle,
+      description: value.recipeDescription,
+      prepTime: Number(value.prepTime),
+      cookTime: Number(value.cookTime),
+      servings: Number(value.servings),
+      difficulty: value.difficulty,
+      webUrl: value.webUrl,
+      imageUrl: value.imageUrl,
+    })
+    .where(eq(recipeTable.id, id))
+    .returning();
+
+  // Delete and re-insert ingredients
+  await db.delete(ingredientTable).where(eq(ingredientTable.recipeId, id));
+  await db.insert(ingredientTable).values(
+    value.ingredients.map(
+      (i: { ingredientName: string; amount: number; unit: string }) => ({
+        recipeId: id,
+        ingredientName: i.ingredientName,
+        amount: toDecimal(i.amount),
+        unit: i.unit,
+      }),
+    ),
+  );
+
+  // Delete and re-insert steps
+  await db.delete(stepTable).where(eq(stepTable.recipeId, id));
+  await db.insert(stepTable).values(
+    value.steps.map((s: { step: string }, index: number) => ({
+      recipeId: id,
+      stepNumber: index + 1,
+      step: s.step,
+    })),
+  );
+
+  // Delete and re-insert tags
+  await db.delete(recipeTagTable).where(eq(recipeTagTable.recipeId, id));
+  if (value.tags && value.tags.length > 0) {
+    for (const tagName of value.tags) {
+      const [tag] = await db
+        .insert(tagTable)
+        .values({ name: tagName })
+        .onConflictDoUpdate({ target: tagTable.name, set: { name: tagName } })
+        .returning();
+
+      await db.insert(recipeTagTable).values({ recipeId: id, tagId: tag.id });
+    }
+  }
+
   return recipe;
 }
 

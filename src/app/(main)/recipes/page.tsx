@@ -4,6 +4,7 @@ import RecipeCard from "../components/RecipeCard";
 export default async function Page() {
   // TODO: add real images
   const recipes = await db.query.recipeTable.findMany({
+    orderBy: (recipes, { asc }) => [asc(recipes.id)],
     with: {
       recipeTags: {
         with: {

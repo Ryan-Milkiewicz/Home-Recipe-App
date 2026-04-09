@@ -14,9 +14,11 @@ import RecipeIngredients from "./RecipeIngredients";
 
 export default function RecipeDetail({
   recipe,
+  onEdit,
   onDelete,
 }: {
   recipe: Recipe;
+  onEdit: (id: any) => void;
   onDelete: (id: number) => void;
 }) {
   const BASE_SERVINGS = recipe.servings;
@@ -33,13 +35,17 @@ export default function RecipeDetail({
               fill
               src={recipe.imageUrl}
               alt={recipe.title}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : (
             "🍽️"
           )}
         </CardDescription>
         <div className="absolute top-2 right-2 z-10 flex gap-2">
-          <button className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors">
+          <button
+            className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors"
+            onClick={() => onEdit(recipe.id)}
+          >
             <HugeiconsIcon
               icon={Edit02Icon}
               size={18}
