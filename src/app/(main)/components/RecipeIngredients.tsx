@@ -22,9 +22,9 @@ export default function RecipeIngredients({
       <div>
         <h2 className="text-2xl font-extrabold mt-4">Ingredients</h2>
         {ingredients.map((ingredient, i) => (
-          <div key={i} className="flex flex-row items-center gap-3 p-2">
+          <div key={i} className="flex flex-row items-center gap-2 p-2">
             <Checkbox id={`ingredient-${i}`} name={`ingredient-${i}`} />
-            <span className="font-medium text-right">
+            <span className="font-medium text-right shrink-0 min-w-fit">
               {ingredient.amount && !isNaN(parseFloat(ingredient.amount))
                 ? decimalToFraction(parseFloat(ingredient.amount) * scale)
                 : ""}
