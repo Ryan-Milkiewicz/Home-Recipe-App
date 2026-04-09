@@ -12,7 +12,13 @@ import { Recipe } from "@/lib/types/recipe";
 import RecipeControls from "./RecipeControls";
 import RecipeIngredients from "./RecipeIngredients";
 
-export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
+export default function RecipeDetail({
+  recipe,
+  onDelete,
+}: {
+  recipe: Recipe;
+  onDelete: (id: number) => void;
+}) {
   const BASE_SERVINGS = recipe.servings;
   const [servings, setServings] = useState(BASE_SERVINGS);
   const { ingredients, steps, tags } = recipe;
@@ -41,7 +47,10 @@ export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
               strokeWidth={2}
             />
           </button>
-          <button className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors">
+          <button
+            className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors"
+            onClick={() => onDelete(recipe.id)}
+          >
             <HugeiconsIcon
               icon={Delete02Icon}
               size={18}
