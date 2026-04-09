@@ -50,6 +50,20 @@
       "when": 1775694817800,
       "tag": "0006_naive_molly_hayes",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1775738872930,
+      "tag": "0007_empty_microbe",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1775739075978,
+      "tag": "0008_fine_sentinel",
+      "breakpoints": true
     }
   ]
 }
