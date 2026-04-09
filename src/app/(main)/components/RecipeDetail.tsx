@@ -17,7 +17,7 @@ export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
   return (
     <div className="flex flex-col items-start justify-start p-6">
       <Card className="h-48 w-full overflow-hidden relative">
-        <CardDescription className="text-6xl">
+        <CardDescription className="text-6xl h-full flex items-center justify-center">
           {recipe.imageUrl ? (
             <Image
               className="object-cover"
