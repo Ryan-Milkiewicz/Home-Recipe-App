@@ -30,16 +30,14 @@ function normalizeRecipe(data: any) {
   return {
     recipeTitle: data.name,
     recipeDescription: data.description,
+    // TODO: Add web url
     // TODO: Add imageUrl to database
     //     imageUrl: Array.isArray(data.image)
     //       ? data.image[0]
     //       : (data.image?.url ?? data.image),
-    //prepTime: parseDuration(data.prepTime), // "PT15M" → 15
-    //     cookTime: parseDuration(data.cookTime),
-    //servings: data.recipeYield,
+    prepTime: parseDuration(data.prepTime),
+    cookTime: parseDuration(data.cookTime),
     servings: parseInt(data.recipeYield) || 0,
-    //     // servings: parseServings(data.recipeYield),
-    //ingredients: data.recipeIngredient ?? [], // already strings: "2 cups flour"
     ingredients: parseIngredients(data.recipeIngredient ?? []),
     steps: parseSteps(data.recipeInstructions).map((step) => ({ step })),
   };
@@ -100,18 +98,18 @@ function normalizeUnicodeFractions(str: string): string {
   return str.replace(/[¼½¾⅓⅔⅛⅜⅝⅞]/g, (match) => " " + unicodeFractions[match]);
 }
 
-function fractionToDecimal(str: string): number {
-  // handles "1/4", "3/4" etc
-  if (str.includes("/")) {
-    const [num, denom] = str.split("/");
-    return parseFloat(num) / parseFloat(denom);
-  }
-  return parseFloat(str);
-}
-
-// function parseDuration(duration?: string): number | null {
-//   if (!duration) return null;
-//   const hours = duration.match(/(\d+)H/)?.[1] ?? 0;
-//   const mins = duration.match(/(\d+)M/)?.[1] ?? 0;
-//   return Number(hours) * 60 + Number(mins);
+// function fractionToDecimal(str: string): number {
+//   // handles "1/4", "3/4" etc
+//   if (str.includes("/")) {
+//     const [num, denom] = str.split("/");
+//     return parseFloat(num) / parseFloat(denom);
+//   }
+//   return parseFloat(str);
 // }
+
+function parseDuration(duration?: string): number | null {
+  if (!duration) return 0;
+  const hours = duration.match(/(\d+)H/)?.[1] ?? 0;
+  const mins = duration.match(/(\d+)M/)?.[1] ?? 0;
+  return Number(hours) * 60 + Number(mins);
+}
