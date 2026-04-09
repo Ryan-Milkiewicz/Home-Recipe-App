@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PlusSignCircleIcon } from "@hugeicons/core-free-icons";
 import { Input } from "@/components/ui/input";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidenav from "./components/Sidenav";
@@ -18,7 +20,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               placeholder="Search recipes..."
             />
             <Button className="ml-auto" variant="outline">
-              <Link href="/recipes/create">Add Recipe</Link>
+              <Link href="/recipes/create" className="flex items-center gap-2">
+                <HugeiconsIcon
+                  icon={PlusSignCircleIcon}
+                  size={16}
+                  strokeWidth={1.5}
+                />
+                Add Recipe
+              </Link>
             </Button>
           </header>
           <main className="flex-1 p-6">{children}</main>
