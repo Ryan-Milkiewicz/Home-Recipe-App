@@ -24,6 +24,7 @@ export default async function Page() {
           description={recipe.description}
           cookTime={recipe.cookTime}
           servings={recipe.servings}
+          imageUrl={recipe.imageUrl ? recipe.imageUrl : ""}
           tags={recipe.recipeTags.map((rt) => rt.tag)}
         />
       ))}

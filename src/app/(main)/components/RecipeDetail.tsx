@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription } from "@/components/ui/card";
+import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 
 import { Recipe } from "@/lib/types/recipe";
@@ -15,8 +16,19 @@ export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
 
   return (
     <div className="flex flex-col items-start justify-start p-6">
-      <Card className="h-48 flex items-center justify-center w-full">
-        <CardDescription className="text-6xl">🍽️</CardDescription>
+      <Card className="h-48 w-full overflow-hidden relative">
+        <CardDescription className="text-6xl">
+          {recipe.imageUrl ? (
+            <Image
+              className="object-cover"
+              fill
+              src={recipe.imageUrl}
+              alt={recipe.title}
+            />
+          ) : (
+            "🍽️"
+          )}
+        </CardDescription>
       </Card>
       <div className="flex flex-wrap gap-2 mt-6">
         {tags &&

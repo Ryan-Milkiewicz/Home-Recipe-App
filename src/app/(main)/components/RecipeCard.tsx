@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Tag } from "@/lib/types/recipe";
 
@@ -23,12 +24,14 @@ export default function RecipeCard({
   return (
     <Link href={`/recipes/${id}`}>
       <div className="bg-white border border-border rounded-xl overflow-hidden hover:shadow-sm transition-shadow cursor-pointer">
-        <div className="h-40 bg-muted flex items-center justify-center text-4xl">
+        <div className="h-40 bg-muted flex items-center justify-center text-4xl relative">
           {imageUrl ? (
-            <img
+            <Image
+              fill
               src={imageUrl}
               alt={title}
-              className="w-full h-full object-cover"
+              className="object-cover"
+              priority
             />
           ) : (
             "🍽️"

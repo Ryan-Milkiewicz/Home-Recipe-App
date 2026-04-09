@@ -30,14 +30,13 @@ function normalizeRecipe(data: any) {
   return {
     recipeTitle: data.name,
     recipeDescription: data.description,
-    // TODO: Add web url
-    // TODO: Add imageUrl to database
-    //     imageUrl: Array.isArray(data.image)
-    //       ? data.image[0]
-    //       : (data.image?.url ?? data.image),
     prepTime: parseDuration(data.prepTime),
     cookTime: parseDuration(data.cookTime),
     servings: parseInt(data.recipeYield) || 0,
+    webUrl: data.url,
+    imageUrl: Array.isArray(data.image)
+      ? data.image[0]?.url
+      : (data.image?.url ?? data.image),
     ingredients: parseIngredients(data.recipeIngredient ?? []),
     steps: parseSteps(data.recipeInstructions).map((step) => ({ step })),
   };

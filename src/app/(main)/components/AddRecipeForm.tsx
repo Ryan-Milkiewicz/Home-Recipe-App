@@ -44,6 +44,8 @@ const formSchema = z.object({
     .number()
     .gte(1, "Servings must be at least 1 character")
     .positive("Servings must be a positive number"),
+  webUrl: z.string(),
+  imageUrl: z.string(),
   difficulty: z.enum(["easy", "medium", "hard"], {
     message: "Please select a difficulty level",
   }),
@@ -76,6 +78,8 @@ export default function AddRecipeForm({ defaultValues }: Props) {
       prepTime: defaultValues?.prepTime ?? 0,
       cookTime: defaultValues?.cookTime ?? 0,
       servings: defaultValues?.servings ?? 0,
+      webUrl: defaultValues?.webUrl ?? "",
+      imageUrl: defaultValues?.imageUrl ?? "",
       difficulty:
         defaultValues?.difficulty ?? ("" as "easy" | "medium" | "hard"),
       tags: defaultValues?.tags ?? [],
@@ -255,6 +259,44 @@ export default function AddRecipeForm({ defaultValues }: Props) {
                   availableTags={availableTags}
                   onChange={(tags) => field.handleChange(tags)}
                 />
+              </Field>
+            )}
+          </form.Field>
+          <form.Field name="webUrl">
+            {(field) => (
+              <Field>
+                <FieldLabel htmlFor="webUrl">Web URL</FieldLabel>
+                <Input
+                  id="webUrl"
+                  placeholder="Web URL"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-destructive">
+                    {field.state.meta.errors[0]?.message}
+                  </p>
+                )}
+              </Field>
+            )}
+          </form.Field>
+          <form.Field name="imageUrl">
+            {(field) => (
+              <Field>
+                <FieldLabel htmlFor="imageUrl">Image URL</FieldLabel>
+                <Input
+                  id="imageUrl"
+                  placeholder="Image URL"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-destructive">
+                    {field.state.meta.errors[0]?.message}
+                  </p>
+                )}
               </Field>
             )}
           </form.Field>

@@ -5,6 +5,8 @@ export type Recipe = {
   cookTime: number;
   prepTime: number;
   servings: number;
+  webUrl?: string;
+  imageUrl?: string;
   difficulty: Difficulty;
   createdAt: Date;
   ingredients: Ingredient[];

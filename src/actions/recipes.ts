@@ -19,6 +19,8 @@ export async function createRecipe(value: any) {
       cookTime: Number(value.cookTime),
       servings: Number(value.servings),
       difficulty: value.difficulty,
+      webUrl: value.webUrl,
+      imageUrl: value.imageUrl,
     })
     .returning();
 
