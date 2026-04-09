@@ -27,16 +27,15 @@ export async function ScrapeRecipe(url: string) {
 }
 
 function normalizeRecipe(data: any) {
+  console.log(data);
   return {
     recipeTitle: data.name,
     recipeDescription: data.description,
     prepTime: parseDuration(data.prepTime),
     cookTime: parseDuration(data.cookTime),
     servings: parseInt(data.recipeYield) || 0,
-    webUrl: data.url,
-    imageUrl: Array.isArray(data.image)
-      ? data.image[0]?.url
-      : (data.image?.url ?? data.image),
+    webUrl: data.url || data.mainEntityOfPage || "",
+    imageUrl: parseImage(data.image),
     ingredients: parseIngredients(data.recipeIngredient ?? []),
     steps: parseSteps(data.recipeInstructions).map((step) => ({ step })),
   };
@@ -111,4 +110,11 @@ function parseDuration(duration?: string): number | null {
   const hours = duration.match(/(\d+)H/)?.[1] ?? 0;
   const mins = duration.match(/(\d+)M/)?.[1] ?? 0;
   return Number(hours) * 60 + Number(mins);
+}
+
+function parseImage(image: any[]) {
+  if (!image) return "";
+  if (Array.isArray(image)) {
+    return image[0].url || image[0];
+  }
 }

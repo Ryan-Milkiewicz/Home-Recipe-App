@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription } from "@/components/ui/card";
+import { Edit02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Delete02Icon } from "@hugeicons/core-free-icons";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 
@@ -9,7 +12,15 @@ import { Recipe } from "@/lib/types/recipe";
 import RecipeControls from "./RecipeControls";
 import RecipeIngredients from "./RecipeIngredients";
 
-export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
+export default function RecipeDetail({
+  recipe,
+  onEdit,
+  onDelete,
+}: {
+  recipe: Recipe;
+  onEdit: (id: any) => void;
+  onDelete: (id: number) => void;
+}) {
   const BASE_SERVINGS = recipe.servings;
   const [servings, setServings] = useState(BASE_SERVINGS);
   const { ingredients, steps, tags } = recipe;
@@ -24,11 +35,36 @@ export default function RecipeDetail({ recipe }: { recipe: Recipe }) {
               fill
               src={recipe.imageUrl}
               alt={recipe.title}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : (
             "🍽️"
           )}
         </CardDescription>
+        <div className="absolute top-2 right-2 z-10 flex gap-2">
+          <button
+            className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors"
+            onClick={() => onEdit(recipe.id)}
+          >
+            <HugeiconsIcon
+              icon={Edit02Icon}
+              size={18}
+              color="black"
+              strokeWidth={2}
+            />
+          </button>
+          <button
+            className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors"
+            onClick={() => onDelete(recipe.id)}
+          >
+            <HugeiconsIcon
+              icon={Delete02Icon}
+              size={18}
+              color="#D32121"
+              strokeWidth={2}
+            />
+          </button>
+        </div>
       </Card>
       <div className="flex flex-wrap gap-2 mt-6">
         {tags &&

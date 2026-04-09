@@ -2,6 +2,8 @@ import { db } from "@/index";
 import { eq } from "drizzle-orm";
 import { recipeTable } from "@/db/schema";
 import RecipeDetail from "../../components/RecipeDetail";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { Recipe } from "@/lib/types/recipe";
 
 export default async function Page({
@@ -32,5 +34,27 @@ export default async function Page({
     tags: result!.recipeTags.map((rt) => rt.tag),
   } as Recipe;
 
-  return <RecipeDetail recipe={recipe} />;
+  const editHandler = async (id: number) => {
+    "use server";
+    redirect(`/recipes/${id}/edit`);
+  };
+
+  const deleteHandler = async (id: number) => {
+    "use server";
+    try {
+      await db.delete(recipeTable).where(eq(recipeTable.id, id));
+      revalidatePath("/recipes");
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+    }
+    redirect("/recipes");
+  };
+
+  return (
+    <RecipeDetail
+      recipe={recipe}
+      onDelete={deleteHandler}
+      onEdit={editHandler}
+    />
+  );
 }

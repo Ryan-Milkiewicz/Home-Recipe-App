@@ -1,8 +1,11 @@
+"use client";
 import * as z from "zod";
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { createRecipe, editRecipe } from "@/actions/recipes";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { getTags } from "@/actions/tags";
 import { IngredientField } from "./IngredientField";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -19,12 +22,11 @@ import { StepField } from "./StepField";
 import { TagsComboBox } from "./TagsComboBox";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "@tanstack/react-form";
-import { getTags } from "@/actions/tags";
-import { createRecipe } from "@/actions/recipes";
 
 type Props = {
   // TODO: Create scraped data type
   defaultValues?: any | null;
+  id?: number;
 };
 
 const formSchema = z.object({
@@ -67,7 +69,8 @@ const formSchema = z.object({
     )
     .min(1, "At least one step is required"),
 });
-export default function AddRecipeForm({ defaultValues }: Props) {
+export default function AddRecipeForm({ defaultValues, id }: Props) {
+  console.log("Default Values:", defaultValues);
   const router = useRouter();
   const [availableTags, setAvailableTags] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
@@ -93,13 +96,17 @@ export default function AddRecipeForm({ defaultValues }: Props) {
       onChange: formSchema,
     },
     onSubmit: async ({ value }) => {
-      // TODO: add toasts for success
+      // TODO: Add toasts for success/error
       startTransition(async () => {
         try {
-          await createRecipe(value);
+          if (id) {
+            await editRecipe(id, value);
+          } else {
+            await createRecipe(value);
+          }
           router.push("/recipes");
         } catch (err) {
-          console.error("Failed to create recipe:", err);
+          console.error("Failed to save recipe:", err);
         }
       });
     },
