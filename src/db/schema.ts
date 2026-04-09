@@ -8,7 +8,6 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { Jersey_10 } from "next/font/google";
 export const difficultyEnum = pgEnum("difficulty", ["easy", "medium", "hard"]);
 
 export const recipeTable = pgTable("recipes", {
