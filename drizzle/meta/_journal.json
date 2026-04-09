@@ -43,6 +43,13 @@
       "when": 1775668837376,
       "tag": "0005_cheerful_princess_powerful",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1775694817800,
+      "tag": "0006_naive_molly_hayes",
+      "breakpoints": true
     }
   ]
 }

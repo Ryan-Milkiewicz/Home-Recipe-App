@@ -25,7 +25,9 @@ export default function RecipeIngredients({
           <div key={i} className="flex flex-row items-center gap-3 p-2">
             <Checkbox id={`ingredient-${i}`} name={`ingredient-${i}`} />
             <span className="font-medium text-right">
-              {decimalToFraction(parseFloat(ingredient.amount) * scale)}
+              {ingredient.amount && !isNaN(parseFloat(ingredient.amount))
+                ? decimalToFraction(parseFloat(ingredient.amount) * scale)
+                : ""}
               {ingredient.unit ? ` ${ingredient.unit}` : ""}
             </span>
             <p className="text-md text-muted-foreground">

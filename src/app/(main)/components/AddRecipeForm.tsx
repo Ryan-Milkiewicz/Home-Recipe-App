@@ -51,8 +51,8 @@ const formSchema = z.object({
   ingredients: z
     .array(
       z.object({
-        amount: z.string().min(1, "Amount is required"),
-        unit: z.string().min(1, "Unit is required"),
+        amount: z.string(),
+        unit: z.string(),
         ingredientName: z.string().min(1, "Ingredient name is required"),
       }),
     )
