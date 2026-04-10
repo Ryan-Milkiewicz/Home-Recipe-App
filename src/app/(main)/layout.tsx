@@ -5,6 +5,7 @@ import { PlusSignCircleIcon } from "@hugeicons/core-free-icons";
 import { Input } from "@/components/ui/input";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidenav from "./components/Sidenav";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -29,6 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Add Recipe
               </Link>
             </Button>
+            <UserButton />
           </header>
           <main className="flex-1 p-6">{children}</main>
         </div>
