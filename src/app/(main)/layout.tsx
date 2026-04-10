@@ -30,7 +30,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Add Recipe
               </Link>
             </Button>
-            <UserButton />
+            <UserButton
+              fallback={
+                <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
+              }
+            />
           </header>
           <main className="flex-1 p-6">{children}</main>
         </div>
