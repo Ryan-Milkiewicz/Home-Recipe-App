@@ -17,11 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <SidebarTrigger />
             <span className="text-sm font-medium">Home Recipes</span>
             <SearchInput />
-            {/* <Input
-              className="w-64 h-8 mx-auto rounded-full text-sm"
-              placeholder="Search recipes..."
-              onChange={(e) => e.target.value}
-            /> */}
             <Button className="ml-auto" variant="outline">
               <Link href="/recipes/create" className="flex items-center gap-2">
                 <HugeiconsIcon
