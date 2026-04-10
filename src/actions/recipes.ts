@@ -9,6 +9,21 @@ import {
   recipeTagTable,
 } from "@/db/schema";
 
+export async function getAllRecipes() {
+  return await db.query.recipeTable.findMany({
+    orderBy: (recipes, { asc }) => [asc(recipes.id)],
+    with: {
+      recipeTags: {
+        with: {
+          tag: {
+            columns: { id: true, name: true },
+          },
+        },
+      },
+    },
+  });
+}
+
 export async function createRecipe(value: any) {
   // Insert recipe
   const [recipe] = await db
