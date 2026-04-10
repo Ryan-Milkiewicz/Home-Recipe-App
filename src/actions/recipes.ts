@@ -52,6 +52,22 @@ export async function getRecipesByTag(tagName: string) {
   });
 }
 
+export async function searchRecipesByName(searchTerm: string) {
+  return await db.query.recipeTable.findMany({
+    orderBy: (recipes, { asc }) => [asc(recipes.id)],
+    where: (recipes, { ilike }) => ilike(recipes.title, `%${searchTerm}%`),
+    with: {
+      recipeTags: {
+        with: {
+          tag: {
+            columns: { id: true, name: true },
+          },
+        },
+      },
+    },
+  });
+}
+
 export async function createRecipe(value: any) {
   // Insert recipe
   const [recipe] = await db

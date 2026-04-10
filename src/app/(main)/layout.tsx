@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignCircleIcon } from "@hugeicons/core-free-icons";
-import { Input } from "@/components/ui/input";
+import SearchInput from "./components/SearchInput";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidenav from "./components/Sidenav";
 import { UserButton } from "@clerk/nextjs";
@@ -16,10 +16,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <header className="h-14 border-b flex items-center px-4 gap-3">
             <SidebarTrigger />
             <span className="text-sm font-medium">Home Recipes</span>
-            <Input
+            <SearchInput />
+            {/* <Input
               className="w-64 h-8 mx-auto rounded-full text-sm"
               placeholder="Search recipes..."
-            />
+              onChange={(e) => e.target.value}
+            /> */}
             <Button className="ml-auto" variant="outline">
               <Link href="/recipes/create" className="flex items-center gap-2">
                 <HugeiconsIcon
