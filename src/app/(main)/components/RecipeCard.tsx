@@ -58,14 +58,16 @@ export default function RecipeCard({
             )}
             {tags && (
               <>
-                {tags.map((t) => (
-                  <span
-                    key={t.id}
-                    className="ml-auto text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded-full"
-                  >
-                    {t.name}
-                  </span>
-                ))}
+                {tags
+                  //.filter((t) => t !== null)
+                  .map((t) => (
+                    <span
+                      key={t.id}
+                      className="ml-auto text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded-full"
+                    >
+                      {t.name}
+                    </span>
+                  ))}
               </>
             )}
           </div>

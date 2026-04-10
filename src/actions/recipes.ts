@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/index";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import {
   recipeTable,
   ingredientTable,
@@ -12,6 +12,34 @@ import {
 export async function getAllRecipes() {
   return await db.query.recipeTable.findMany({
     orderBy: (recipes, { asc }) => [asc(recipes.id)],
+    with: {
+      recipeTags: {
+        with: {
+          tag: {
+            columns: { id: true, name: true },
+          },
+        },
+      },
+    },
+  });
+}
+
+export async function getRecipesByTag(tagName: string) {
+  return await db.query.recipeTable.findMany({
+    orderBy: (recipes, { asc }) => [asc(recipes.id)],
+    where: (recipes, { exists, eq }) =>
+      exists(
+        db
+          .select()
+          .from(recipeTagTable)
+          .innerJoin(tagTable, eq(recipeTagTable.tagId, tagTable.id))
+          .where(
+            and(
+              eq(recipeTagTable.recipeId, recipes.id),
+              eq(tagTable.name, tagName),
+            ),
+          ),
+      ),
     with: {
       recipeTags: {
         with: {

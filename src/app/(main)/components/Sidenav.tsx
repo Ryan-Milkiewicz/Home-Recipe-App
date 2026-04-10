@@ -30,12 +30,12 @@ const navItems = [
 ];
 
 const tagItems = [
-  { label: "Quick meals", href: "/recipes?tag=quick" },
-  { label: "Dinner", href: "/recipes?tag=weeknight" },
-  { label: "Breakfast", href: "/recipes?tag=breakfast" },
-  { label: "Pasta", href: "/recipes?tag=pasta" },
-  { label: "Baking", href: "/recipes?tag=baking" },
-  { label: "Desserts", href: "/recipes?tag=desserts" },
+  { label: "Quick Meals", href: "/recipes?tag=Quick%20Meal" },
+  { label: "Dinner", href: "/recipes?tag=Dinner" },
+  { label: "Breakfast", href: "/recipes?tag=Breakfast" },
+  { label: "Pasta", href: "/recipes?tag=Pasta" },
+  { label: "Baking", href: "/recipes?tag=Baking" },
+  { label: "Desserts", href: "/recipes?tag=Desserts" },
 ];
 
 export default function SideNav() {

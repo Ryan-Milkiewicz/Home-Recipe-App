@@ -1,10 +1,15 @@
 import { db } from "@/index";
-import { getAllRecipes } from "@/actions/recipes";
+import { getAllRecipes, getRecipesByTag } from "@/actions/recipes";
 import RecipeCard from "../components/RecipeCard";
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ tag?: string }>;
+}) {
   // TODO: add real images
-  const recipes = await getAllRecipes();
+  const { tag } = await searchParams;
+  const recipes = tag ? await getRecipesByTag(tag) : await getAllRecipes();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-6">
