@@ -11,6 +11,10 @@ export default function SearchInput() {
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     startTransition(() => {
+      if (value.trim() === "") {
+        router.push("/recipes");
+        return;
+      }
       router.push(`/recipes?search=${value}`);
     });
   }
