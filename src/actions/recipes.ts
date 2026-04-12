@@ -78,7 +78,6 @@ export async function createRecipe(value: any) {
       prepTime: Number(value.prepTime),
       cookTime: Number(value.cookTime),
       servings: Number(value.servings),
-      difficulty: value.difficulty,
       webUrl: value.webUrl,
       imageUrl: value.imageUrl,
     })
@@ -134,7 +133,6 @@ export async function editRecipe(id: number, value: any) {
       prepTime: Number(value.prepTime),
       cookTime: Number(value.cookTime),
       servings: Number(value.servings),
-      difficulty: value.difficulty,
       webUrl: value.webUrl,
       imageUrl: value.imageUrl,
     })
