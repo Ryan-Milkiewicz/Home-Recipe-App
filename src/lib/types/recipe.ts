@@ -7,7 +7,6 @@ export type Recipe = {
   servings: number;
   webUrl?: string;
   imageUrl?: string;
-  difficulty: Difficulty;
   createdAt: Date;
   ingredients: Ingredient[];
   steps: Step[];
@@ -29,7 +28,5 @@ export type Tag = {
   id: number;
   name: string;
 };
-
-export type Difficulty = "easy" | "medium" | "hard";
 
 export type Method = "url" | "ai" | "manual";
