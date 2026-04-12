@@ -22,8 +22,8 @@ export default function RecipeCard({
   tags,
 }: Props) {
   return (
-    <Link href={`/recipes/${id}`}>
-      <div className="bg-white border border-border rounded-xl overflow-hidden hover:shadow-sm transition-shadow cursor-pointer">
+    <Link href={`/recipes/${id}`} className="h-full">
+      <div className="h-full flex flex-col bg-white border border-border rounded-xl overflow-hidden hover:shadow-sm transition-shadow cursor-pointer">
         <div className="h-40 bg-muted flex items-center justify-center text-4xl relative">
           {imageUrl ? (
             <Image
@@ -38,13 +38,23 @@ export default function RecipeCard({
             "🍽️"
           )}
         </div>
-        <div className="p-3 flex flex-col gap-1">
+        <div className="p-3 flex flex-col gap-1 flex-1">
           <p className="text-sm font-medium leading-tight">{title}</p>
           {description && (
             <p className="text-xs text-muted-foreground line-clamp-2">
               {description}
             </p>
           )}
+          <div className="flex flex-wrap gap-1">
+            {tags?.map((t) => (
+              <span
+                key={t.id}
+                className="text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded-full"
+              >
+                {t.name}
+              </span>
+            ))}
+          </div>
           <div className="flex items-center gap-2 mt-1">
             {cookTime != null && (
               <span className="text-xs text-muted-foreground">
@@ -56,20 +66,18 @@ export default function RecipeCard({
                 · {servings} servings
               </span>
             )}
-            {tags && (
+            {/* {tags && (
               <>
-                {tags
-                  //.filter((t) => t !== null)
-                  .map((t) => (
-                    <span
-                      key={t.id}
-                      className="ml-auto text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded-full"
-                    >
-                      {t.name}
-                    </span>
-                  ))}
+                {tags.map((t) => (
+                  <span
+                    key={t.id}
+                    className="ml-auto text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded-full"
+                  >
+                    {t.name}
+                  </span>
+                ))}
               </>
-            )}
+            )} */}
           </div>
         </div>
       </div>
