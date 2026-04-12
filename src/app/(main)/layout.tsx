@@ -39,16 +39,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <span className="hidden sm:inline">Add Recipe</span>
               </Link>
             </Button>
-            {/* <Button className="ml-auto" variant="outline">
-              <Link href="/recipes/create" className="flex items-center gap-2">
-                <HugeiconsIcon
-                  icon={PlusSignCircleIcon}
-                  size={16}
-                  strokeWidth={1.5}
-                />
-                Add Recipe
-              </Link>
-            </Button> */}
             <UserButton
               fallback={
                 <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />

@@ -30,13 +30,17 @@ const navItems = [
   { label: "Favorites", href: "/favorites", icon: StarIcon },
 ];
 
-const tagItems = [
-  { label: "Quick Meals", href: "/recipes?tag=Quick%20Meal" },
-  { label: "Dinner", href: "/recipes?tag=Dinner" },
-  { label: "Breakfast", href: "/recipes?tag=Breakfast" },
-  { label: "Pasta", href: "/recipes?tag=Pasta" },
+// TODO: Get tags from SQL
+const tabItems = [
   { label: "Baking", href: "/recipes?tag=Baking" },
+  { label: "Beef", href: "/recipes?tag=Beef" },
+  { label: "Chicken", href: "/recipes?tag=Chicken" },
+  { label: "Cock Pot", href: "/recipes?tag=Cock%20Pot" },
   { label: "Desserts", href: "/recipes?tag=Desserts" },
+  { label: "Dips", href: "/recipes?tag=Dips" },
+  { label: "Pasta", href: "/recipes?tag=Pasta" },
+  { label: "Quick Meals", href: "/recipes?tag=Quick%20Meal" },
+  { label: "Soup", href: "/recipes?tag=Soup" },
 ];
 
 export default function SideNav() {
@@ -92,7 +96,7 @@ export default function SideNav() {
         <SidebarGroup>
           <SidebarGroupLabel>Tags</SidebarGroupLabel>
           <SidebarMenu>
-            {tagItems.map((item) => (
+            {tabItems.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
@@ -106,16 +110,6 @@ export default function SideNav() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-
-      {/* <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link href="/settings">Settings</Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter> */}
     </Sidebar>
   );
 }
