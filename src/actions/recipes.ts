@@ -11,7 +11,7 @@ import {
 
 export async function getAllRecipes() {
   return await db.query.recipeTable.findMany({
-    orderBy: (recipes, { asc }) => [asc(recipes.id)],
+    orderBy: (recipes, { asc }) => [asc(recipes.title)],
     with: {
       recipeTags: {
         with: {
@@ -26,7 +26,7 @@ export async function getAllRecipes() {
 
 export async function getRecipesByTag(tagName: string) {
   return await db.query.recipeTable.findMany({
-    orderBy: (recipes, { asc }) => [asc(recipes.id)],
+    orderBy: (recipes, { asc }) => [asc(recipes.title)],
     where: (recipes, { exists, eq }) =>
       exists(
         db
@@ -54,7 +54,7 @@ export async function getRecipesByTag(tagName: string) {
 
 export async function searchRecipesByName(searchTerm: string) {
   return await db.query.recipeTable.findMany({
-    orderBy: (recipes, { asc }) => [asc(recipes.id)],
+    orderBy: (recipes, { asc }) => [asc(recipes.title)],
     where: (recipes, { ilike }) => ilike(recipes.title, `%${searchTerm}%`),
     with: {
       recipeTags: {
