@@ -21,7 +21,7 @@ export default function SearchInput() {
 
   return (
     <Input
-      className="w-64 h-8 mx-auto rounded-full text-sm"
+      className="h-8 mx-auto rounded-full text-sm"
       placeholder="Search recipes..."
       onChange={handleSearch}
     />

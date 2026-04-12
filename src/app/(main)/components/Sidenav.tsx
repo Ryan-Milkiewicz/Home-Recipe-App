@@ -20,6 +20,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
+import { useSidebar } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 
 const navItems = [
@@ -39,18 +40,25 @@ const tagItems = [
 ];
 
 export default function SideNav() {
+  const { setOpenMobile, isMobile } = useSidebar();
   const pathname = usePathname();
+
+  const closeOnMobile = () => {
+    if (isMobile) setOpenMobile(false);
+  };
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <HugeiconsIcon
-              icon={SpoonIcon}
-              size={48}
-              color="black"
-              strokeWidth={1.5}
-            />
+            <Link href="/recipes">
+              <HugeiconsIcon
+                icon={SpoonIcon}
+                size={28}
+                color="black"
+                strokeWidth={1.5}
+              />
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -61,7 +69,11 @@ export default function SideNav() {
           <SidebarMenu>
             {navItems.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton asChild isActive={pathname === item.href}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === item.href}
+                  onClick={closeOnMobile}
+                >
                   <Link href={item.href}>
                     {item.label}
                     <HugeiconsIcon
@@ -82,7 +94,11 @@ export default function SideNav() {
           <SidebarMenu>
             {tagItems.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton asChild isActive={pathname === item.href}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === item.href}
+                  onClick={closeOnMobile}
+                >
                   <Link href={item.href}>{item.label}</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -91,7 +107,7 @@ export default function SideNav() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
@@ -99,7 +115,7 @@ export default function SideNav() {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
   );
 }

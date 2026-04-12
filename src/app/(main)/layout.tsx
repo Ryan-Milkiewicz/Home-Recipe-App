@@ -15,9 +15,31 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex flex-col flex-1">
           <header className="h-14 border-b flex items-center px-4 gap-3">
             <SidebarTrigger />
-            <span className="text-sm font-medium">Home Recipes</span>
-            <SearchInput />
-            <Button className="ml-auto" variant="outline">
+            <Link
+              href="/recipes"
+              className="text-sm font-medium whitespace-nowrap"
+            >
+              Home Recipes
+            </Link>
+            <div className="flex-1 max-w-xs">
+              <SearchInput />
+            </div>
+            <Button
+              className="ml-auto shrink-0"
+              variant="outline"
+              size="sm"
+              asChild
+            >
+              <Link href="/recipes/create" className="flex items-center gap-2">
+                <HugeiconsIcon
+                  icon={PlusSignCircleIcon}
+                  size={16}
+                  strokeWidth={1.5}
+                />
+                <span className="hidden sm:inline">Add Recipe</span>
+              </Link>
+            </Button>
+            {/* <Button className="ml-auto" variant="outline">
               <Link href="/recipes/create" className="flex items-center gap-2">
                 <HugeiconsIcon
                   icon={PlusSignCircleIcon}
@@ -26,7 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 />
                 Add Recipe
               </Link>
-            </Button>
+            </Button> */}
             <UserButton
               fallback={
                 <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
