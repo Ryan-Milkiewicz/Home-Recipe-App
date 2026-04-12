@@ -72,12 +72,6 @@ export default function RecipeControls({
           </Button>
         </div>
       </div>
-      <div className="flex flex-col gap-1">
-        <span className="text-xs text-muted-foreground uppercase tracking-wide">
-          Difficulty
-        </span>
-        <span className="text-sm font-medium">{difficulty}</span>
-      </div>
     </div>
   );
 }

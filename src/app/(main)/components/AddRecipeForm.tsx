@@ -48,9 +48,6 @@ const formSchema = z.object({
     .positive("Servings must be a positive number"),
   webUrl: z.string(),
   imageUrl: z.string(),
-  difficulty: z.enum(["easy", "medium", "hard"], {
-    message: "Please select a difficulty level",
-  }),
   tags: z.array(z.string()),
   ingredients: z
     .array(
@@ -83,8 +80,6 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
       servings: defaultValues?.servings ?? 0,
       webUrl: defaultValues?.webUrl ?? "",
       imageUrl: defaultValues?.imageUrl ?? "",
-      difficulty:
-        defaultValues?.difficulty ?? ("" as "easy" | "medium" | "hard"),
       tags: defaultValues?.tags ?? [],
       ingredients: defaultValues?.ingredients ?? [
         { amount: "", unit: "", ingredientName: "" },
@@ -218,36 +213,6 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />
-                  {field.state.meta.errors.length > 0 && (
-                    <p className="text-sm text-destructive">
-                      {field.state.meta.errors[0]?.message}
-                    </p>
-                  )}
-                </Field>
-              )}
-            </form.Field>
-            <form.Field name="difficulty">
-              {(field) => (
-                <Field className="flex-1">
-                  <FieldLabel htmlFor="PrepTime">Difficulty</FieldLabel>
-                  <Select
-                    value={field.state.value}
-                    onValueChange={(value) =>
-                      field.handleChange(value as "easy" | "medium" | "hard")
-                    }
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a fruit" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Difficulty</SelectLabel>
-                        <SelectItem value="easy">Easy</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="hard">Hard</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
                   {field.state.meta.errors.length > 0 && (
                     <p className="text-sm text-destructive">
                       {field.state.meta.errors[0]?.message}

@@ -17,7 +17,6 @@ export const recipeTable = pgTable("recipes", {
   prepTime: integer().notNull(),
   cookTime: integer().notNull(),
   servings: integer().notNull(),
-  difficulty: difficultyEnum().notNull(),
   webUrl: text(),
   imageUrl: text(),
   createdAt: timestamp().defaultNow().notNull(),

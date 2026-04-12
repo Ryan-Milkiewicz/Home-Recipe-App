@@ -66,18 +66,6 @@ export default function RecipeCard({
                 · {servings} servings
               </span>
             )}
-            {/* {tags && (
-              <>
-                {tags.map((t) => (
-                  <span
-                    key={t.id}
-                    className="ml-auto text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded-full"
-                  >
-                    {t.name}
-                  </span>
-                ))}
-              </>
-            )} */}
           </div>
         </div>
       </div>
