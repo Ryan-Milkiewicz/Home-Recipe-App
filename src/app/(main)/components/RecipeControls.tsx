@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 type Props = {
   prepTime: number;
   cookTime: number;
-  difficulty: string;
   baseServings: number;
   onServingsChange: (servings: number) => void;
 };
@@ -13,7 +12,6 @@ type Props = {
 export default function RecipeControls({
   prepTime,
   cookTime,
-  difficulty,
   baseServings,
   onServingsChange,
 }: Props) {

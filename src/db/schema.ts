@@ -8,7 +8,6 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-export const difficultyEnum = pgEnum("difficulty", ["easy", "medium", "hard"]);
 
 export const recipeTable = pgTable("recipes", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),

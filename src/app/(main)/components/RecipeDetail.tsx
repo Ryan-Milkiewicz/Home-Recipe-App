@@ -86,7 +86,6 @@ export default function RecipeDetail({
       <RecipeControls
         prepTime={recipe.prepTime}
         cookTime={recipe.cookTime}
-        difficulty={recipe.difficulty}
         baseServings={BASE_SERVINGS}
         onServingsChange={setServings}
       />
