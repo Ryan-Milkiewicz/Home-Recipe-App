@@ -15,17 +15,12 @@ export const ourFileRouter = {
   })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
-      // This code runs on your server before upload
-      //const user = await auth(req);
-
       const user = await currentUser();
-      // Throw if user isn't signed in
+
       if (!user)
         throw new UploadThingError(
           "You must be logged in to upload a profile picture",
         );
-      // If you throw, the user will not be able to upload
-      // if (!user) throw new UploadThingError("Unauthorized");
 
       // Return userId to be used in onUploadComplete
       return { userId: user.id };
