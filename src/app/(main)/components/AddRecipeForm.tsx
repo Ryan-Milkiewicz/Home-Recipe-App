@@ -4,7 +4,12 @@ import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createRecipe, editRecipe } from "@/actions/recipes";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { getTags } from "@/actions/tags";
 import { IngredientField } from "./IngredientField";
 import { Input } from "@/components/ui/input";
@@ -87,7 +92,7 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
       // TODO: Add toasts for success/error
       startTransition(async () => {
         try {
-          // TODO: wrap file upload in field and change imageUrl to that name
+          // Default to the imageUrl from the form, but if there's an image file uploaded, we'll overwrite this with the uploaded url
           let imageUrl = value.imageUrl;
 
           // Upload image first if there was one uploaded
@@ -95,7 +100,7 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
             const res = await startUpload([imageFile]);
             if (res?.[0].ufsUrl) {
               // Get the url from the upload response
-              //imageUrl = res[0].ufsUrl;
+              imageUrl = res[0].ufsUrl;
             }
           }
           if (id) {
@@ -289,6 +294,7 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
             accept="image/*"
             onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
           />
+          <FieldDescription>Select a picture to upload.</FieldDescription>
           {imageFile && (
             <p className="text-sm text-muted-foreground">{imageFile.name}</p>
           )}
