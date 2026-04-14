@@ -272,6 +272,7 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  disabled={true}
                 />
                 {field.state.meta.errors.length > 0 && (
                   <p className="text-sm text-destructive">
