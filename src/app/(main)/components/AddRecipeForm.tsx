@@ -93,7 +93,7 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
       startTransition(async () => {
         try {
           // Default to the imageUrl from the form, but if there's an image file uploaded, we'll overwrite this with the uploaded url
-          let imageUrl = value.imageUrl;
+          let imageUrl = value.imageUrl || defaultValues?.imageUrl || "";
 
           // Upload image first if there was one uploaded
           if (imageFile) {

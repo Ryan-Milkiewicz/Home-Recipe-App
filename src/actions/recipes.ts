@@ -8,6 +8,9 @@ import {
   tagTable,
   recipeTagTable,
 } from "@/db/schema";
+import { UTApi } from "uploadthing/server";
+
+const utapi = new UTApi();
 
 export async function getAllRecipes() {
   return await db.query.recipeTable.findMany({
@@ -124,6 +127,19 @@ export async function createRecipe(value: any) {
 }
 
 export async function editRecipe(id: number, value: any) {
+  // If a new image is being set, delete the old one from UploadThing
+  if (value.imageUrl) {
+    const [existing] = await db
+      .select({ imageUrl: recipeTable.imageUrl })
+      .from(recipeTable)
+      .where(eq(recipeTable.id, id));
+
+    if (existing?.imageUrl && existing.imageUrl !== value.imageUrl) {
+      const fileKey = existing.imageUrl.split("/").pop();
+      if (fileKey) await utapi.deleteFiles(fileKey);
+    }
+  }
+
   // Update recipe
   const [recipe] = await db
     .update(recipeTable)
