@@ -5,6 +5,9 @@ import RecipeDetail from "../../components/RecipeDetail";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { Recipe } from "@/lib/types/recipe";
+import { UTApi } from "uploadthing/server";
+
+const utapi = new UTApi();
 
 export default async function Page({
   params,
@@ -42,7 +45,16 @@ export default async function Page({
   const deleteHandler = async (id: number) => {
     "use server";
     try {
-      await db.delete(recipeTable).where(eq(recipeTable.id, id));
+      const [deletedRecipe] = await db
+        .delete(recipeTable)
+        .where(eq(recipeTable.id, id))
+        .returning({ imageUrl: recipeTable.imageUrl });
+
+      if (deletedRecipe?.imageUrl) {
+        const fileKey = deletedRecipe.imageUrl.split("/").pop();
+        if (fileKey) await utapi.deleteFiles(fileKey);
+      }
+
       revalidatePath("/recipes");
     } catch (error) {
       console.error("Error deleting recipe:", error);

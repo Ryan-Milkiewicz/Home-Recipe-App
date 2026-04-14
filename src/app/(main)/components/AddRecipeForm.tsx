@@ -4,23 +4,20 @@ import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createRecipe, editRecipe } from "@/actions/recipes";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { getTags } from "@/actions/tags";
 import { IngredientField } from "./IngredientField";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { StepField } from "./StepField";
 import { TagsComboBox } from "./TagsComboBox";
 import { Textarea } from "@/components/ui/textarea";
+import { useUploadThing } from "@/lib/utils";
 import { useForm } from "@tanstack/react-form";
 
 type Props = {
@@ -67,9 +64,10 @@ const formSchema = z.object({
     .min(1, "At least one step is required"),
 });
 export default function AddRecipeForm({ defaultValues, id }: Props) {
-  console.log("Default Values:", defaultValues);
   const router = useRouter();
   const [availableTags, setAvailableTags] = useState<string[]>([]);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const { startUpload } = useUploadThing("imageUploader");
   const [isPending, startTransition] = useTransition();
   const form = useForm({
     defaultValues: {
@@ -94,10 +92,21 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
       // TODO: Add toasts for success/error
       startTransition(async () => {
         try {
+          // Default to the imageUrl from the form, but if there's an image file uploaded, we'll overwrite this with the uploaded url
+          let imageUrl = value.imageUrl || defaultValues?.imageUrl || "";
+
+          // Upload image first if there was one uploaded
+          if (imageFile) {
+            const res = await startUpload([imageFile]);
+            if (res?.[0].ufsUrl) {
+              // Get the url from the upload response
+              imageUrl = res[0].ufsUrl;
+            }
+          }
           if (id) {
-            await editRecipe(id, value);
+            await editRecipe(id, { ...value, imageUrl });
           } else {
-            await createRecipe(value);
+            await createRecipe({ ...value, imageUrl });
           }
           router.push("/recipes");
         } catch (err) {
@@ -263,6 +272,7 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  disabled={true}
                 />
                 {field.state.meta.errors.length > 0 && (
                   <p className="text-sm text-destructive">
@@ -277,6 +287,19 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
         <IngredientField form={form} />
         <Separator className="my-6" />
         <StepField form={form} />
+        <Separator className="my-6" />
+        <Field>
+          <FieldLabel>Image Upload (optional)</FieldLabel>
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
+          />
+          <FieldDescription>Select a picture to upload.</FieldDescription>
+          {imageFile && (
+            <p className="text-sm text-muted-foreground">{imageFile.name}</p>
+          )}
+        </Field>
         <Separator className="my-6" />
         <Button
           type="submit"
