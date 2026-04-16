@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { convertToHoursAndMinutes } from "../../../lib/helper";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -17,6 +18,11 @@ export default function RecipeControls({
 }: Props) {
   const [servings, setServings] = useState(baseServings);
 
+  const totalTime = cookTime + prepTime;
+  const prepTimeConverted = convertToHoursAndMinutes(prepTime);
+  const cookTimeConverted = convertToHoursAndMinutes(cookTime);
+  const totalTimeConverted = convertToHoursAndMinutes(totalTime);
+
   const update = (n: number) => {
     // Takes the max of 1 and the new value to prevent going below 1 serving
     const next = Math.max(1, n);
@@ -30,19 +36,19 @@ export default function RecipeControls({
         <span className="text-xs text-muted-foreground uppercase tracking-wide">
           Prep
         </span>
-        <span className="text-sm font-medium">{prepTime} min</span>
+        <span className="text-sm font-medium">{prepTimeConverted}</span>
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-xs text-muted-foreground uppercase tracking-wide">
           Cook
         </span>
-        <span className="text-sm font-medium">{cookTime} min</span>
+        <span className="text-sm font-medium">{cookTimeConverted}</span>
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-xs text-muted-foreground uppercase tracking-wide">
           Total
         </span>
-        <span className="text-sm font-medium">{prepTime + cookTime} min</span>
+        <span className="text-sm font-medium">{totalTimeConverted}</span>
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-xs text-muted-foreground uppercase tracking-wide">

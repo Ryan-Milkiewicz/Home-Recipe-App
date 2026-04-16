@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { convertToHoursAndMinutes } from "../../../lib/helper";
 import { Card, CardDescription } from "@/components/ui/card";
 import { Edit02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -18,12 +19,15 @@ export default function RecipeDetail({
   onDelete,
 }: {
   recipe: Recipe;
-  onEdit: (id: any) => void;
+  onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
   const BASE_SERVINGS = recipe.servings;
   const [servings, setServings] = useState(BASE_SERVINGS);
   const { ingredients, steps, tags } = recipe;
+
+  const totalMins = recipe.cookTime + recipe.prepTime;
+  const convertedTotalMins = convertToHoursAndMinutes(totalMins);
 
   return (
     <div className="flex flex-col items-start justify-start p-6">
@@ -74,7 +78,7 @@ export default function RecipeDetail({
             </Badge>
           ))}
         <Badge className="px-3 py-1 text-sm" variant="secondary">
-          {recipe.cookTime + recipe.prepTime} mins
+          {convertedTotalMins}
         </Badge>
         <Badge className="px-3 py-1 text-sm" variant="secondary">
           {recipe.servings} servings

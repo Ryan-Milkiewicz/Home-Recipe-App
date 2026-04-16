@@ -1,3 +1,4 @@
+import { convertToHoursAndMinutes } from "../../../lib/helper";
 import Image from "next/image";
 import Link from "next/link";
 import { Tag } from "@/lib/types/recipe";
@@ -58,7 +59,7 @@ export default function RecipeCard({
           <div className="flex items-center gap-2 mt-1">
             {cookTime != null && (
               <span className="text-xs text-muted-foreground">
-                {cookTime} min
+                {convertToHoursAndMinutes(cookTime)}
               </span>
             )}
             {servings && (

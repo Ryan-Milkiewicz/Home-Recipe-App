@@ -21,3 +21,17 @@ export function decimalToFraction(decimal: number): string {
   if (whole) return whole.toString(); // "2"
   return decimal.toString(); // fallback
 }
+
+export function convertToHoursAndMinutes(minutes: number) {
+  if (minutes >= 60) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+
+    const hourStr = `${hours} ${hours === 1 ? "hr" : "hrs"}`;
+    if (mins === 0) return hourStr;
+
+    return `${hourStr} ${mins} ${mins === 1 ? "min" : "mins"}`;
+  } else {
+    return `${minutes} ${minutes === 1 ? "min" : "mins"}`;
+  }
+}
