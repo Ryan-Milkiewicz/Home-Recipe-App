@@ -44,6 +44,7 @@ export default function RecipeIngredients({
             <Badge className="px-2 py-3 text-lg shrink-0" variant="secondary">
               {i + 1}
             </Badge>
+            <Checkbox id={`step-${i}`} name={`step-${i}`} />
             <p className="text-md text-muted-foreground inline-block">
               {step.step}
             </p>
