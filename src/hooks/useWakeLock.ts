@@ -1,4 +1,3 @@
-// hooks/useWakeLock.ts
 import { useEffect, useRef } from "react";
 
 export function useWakeLock() {

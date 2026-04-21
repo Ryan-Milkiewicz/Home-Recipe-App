@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -5,9 +6,11 @@ import { PlusSignCircleIcon } from "@hugeicons/core-free-icons";
 import SearchInput from "./components/SearchInput";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidenav from "./components/Sidenav";
+import { useWakeLock } from "@/hooks/useWakeLock";
 import { UserButton } from "@clerk/nextjs";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  useWakeLock();
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="flex min-h-screen w-full">
