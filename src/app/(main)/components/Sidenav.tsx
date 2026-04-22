@@ -11,8 +11,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import {
-  Book,
-  Book04Icon,
   Calendar03Icon,
   GridIcon,
   StarIcon,
@@ -25,7 +23,6 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   { label: "All recipes", href: "/recipes", icon: GridIcon },
-  { label: "My cookbook", href: "/cookbook", icon: Book04Icon },
   { label: "Meal planner", href: "/meal-planner", icon: Calendar03Icon },
   { label: "Favorites", href: "/favorites", icon: StarIcon },
 ];
