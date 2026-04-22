@@ -1,8 +1,9 @@
 "use client";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 import { PlusSignCircleIcon } from "@hugeicons/core-free-icons";
+import { usePathname } from "next/navigation";
 import SearchInput from "./components/SearchInput";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidenav from "./components/Sidenav";
@@ -10,6 +11,7 @@ import { useWakeLock } from "@/hooks/useWakeLock";
 import { UserButton } from "@clerk/nextjs";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   useWakeLock();
   return (
     <SidebarProvider defaultOpen={true}>
@@ -24,9 +26,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             >
               Home Recipes
             </Link>
-            <div className="flex-1 max-w-xs">
-              <SearchInput />
-            </div>
+            {!pathname.includes("recipes/") && (
+              <>
+                <div className="flex-1 max-w-xs">
+                  <SearchInput />
+                </div>
+              </>
+            )}
             <Button
               className="ml-auto shrink-0"
               variant="outline"

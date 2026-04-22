@@ -1,14 +1,16 @@
 "use server";
 import { db } from "@/index";
-import { eq, and } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import {
   recipeTable,
   ingredientTable,
   stepTable,
   tagTable,
   recipeTagTable,
+  favoriteTable,
 } from "@/db/schema";
 import { UTApi } from "uploadthing/server";
+import { revalidatePath } from "next/cache";
 
 const utapi = new UTApi();
 
@@ -125,6 +127,43 @@ export async function createRecipe(value: any) {
     }
   }
   return recipe;
+}
+
+export async function getFavoriteRecipes() {
+  const favorites = await db
+    .select()
+    .from(favoriteTable)
+    .innerJoin(recipeTable, eq(favoriteTable.recipeId, recipeTable.id));
+
+  const recipeIds = favorites.map((f) => f.recipes.id);
+
+  if (recipeIds.length === 0) return [];
+
+  return await db.query.recipeTable.findMany({
+    orderBy: (recipes, { asc }) => [asc(recipes.title)],
+    where: inArray(recipeTable.id, recipeIds),
+    with: {
+      recipeTags: {
+        with: {
+          tag: true,
+        },
+      },
+    },
+  });
+}
+
+export async function toggleRecipeFavorite(recipeId: number) {
+  const [existing] = await db
+    .select()
+    .from(favoriteTable)
+    .where(eq(favoriteTable.recipeId, recipeId));
+
+  if (existing) {
+    await db.delete(favoriteTable).where(eq(favoriteTable.recipeId, recipeId));
+  } else {
+    await db.insert(favoriteTable).values({ recipeId });
+  }
+  revalidatePath("/recipes");
 }
 
 export async function editRecipe(id: number, value: any) {

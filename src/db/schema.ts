@@ -5,6 +5,7 @@ import {
   pgTable,
   text,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/pg-core";
 
@@ -54,6 +55,18 @@ export const recipeTagTable = pgTable("recipe_tags", {
     .references(() => tagTable.id, { onDelete: "cascade" }),
 });
 
+export const favoriteTable = pgTable(
+  "favorites",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    recipeId: integer()
+      .notNull()
+      .references(() => recipeTable.id, { onDelete: "cascade" }),
+    createdAt: timestamp().defaultNow().notNull(),
+  },
+  (table) => [unique().on(table.recipeId)],
+);
+
 // Relations
 export const recipeRelations = relations(recipeTable, ({ many }) => ({
   ingredients: many(ingredientTable),
@@ -77,6 +90,13 @@ export const stepsRelations = relations(stepTable, ({ one }) => ({
 
 export const tagRelations = relations(tagTable, ({ many }) => ({
   recipeTags: many(recipeTagTable),
+}));
+
+export const favoriteRelations = relations(favoriteTable, ({ one }) => ({
+  recipe: one(recipeTable, {
+    fields: [favoriteTable.recipeId],
+    references: [recipeTable.id],
+  }),
 }));
 
 export const recipeTagRelations = relations(recipeTagTable, ({ one }) => ({

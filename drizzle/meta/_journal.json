@@ -78,6 +78,13 @@
       "when": 1776862264429,
       "tag": "0010_magical_hellcat",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1776865754805,
+      "tag": "0011_mysterious_cassandra_nova",
+      "breakpoints": true
     }
   ]
 }
