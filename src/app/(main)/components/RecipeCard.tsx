@@ -1,6 +1,13 @@
 import { convertToHoursAndMinutes } from "../../../lib/helper";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
+import { StarIcon } from "@hugeicons/core-free-icons";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Tag } from "@/lib/types/recipe";
 
 type Props = {
@@ -39,7 +46,7 @@ export default function RecipeCard({
             "🍽️"
           )}
         </div>
-        <div className="p-3 flex flex-col gap-1 flex-1">
+        <div className="p-3 flex flex-col gap-1 flex-1 justify-between">
           <p className="text-sm font-medium leading-tight">{title}</p>
           {description && (
             <p className="text-xs text-muted-foreground line-clamp-2">
@@ -67,6 +74,24 @@ export default function RecipeCard({
                 · {servings} servings
               </span>
             )}
+          </div>
+          <div className="flex items-end">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors">
+                  <HugeiconsIcon
+                    icon={StarIcon}
+                    size={18}
+                    color="black"
+                    fill="white"
+                    strokeWidth={2}
+                  />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Add to favorites</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
         </div>
       </div>
