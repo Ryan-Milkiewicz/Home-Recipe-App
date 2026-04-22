@@ -2,7 +2,6 @@ import { relations } from "drizzle-orm";
 import {
   integer,
   numeric,
-  pgEnum,
   pgTable,
   text,
   timestamp,
@@ -18,6 +17,7 @@ export const recipeTable = pgTable("recipes", {
   servings: integer().notNull(),
   webUrl: text(),
   imageUrl: text(),
+  notes: text(),
   createdAt: timestamp().defaultNow().notNull(),
 });
 

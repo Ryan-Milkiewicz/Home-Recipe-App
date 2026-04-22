@@ -43,6 +43,7 @@ const formSchema = z.object({
     .number()
     .gte(1, "Servings must be at least 1 character")
     .positive("Servings must be a positive number"),
+  notes: z.string(),
   webUrl: z.string(),
   imageUrl: z.string(),
   tags: z.array(z.string()),
@@ -79,6 +80,7 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
       webUrl: defaultValues?.webUrl ?? "",
       imageUrl: defaultValues?.imageUrl ?? "",
       tags: defaultValues?.tags ?? [],
+      notes: defaultValues?.notes ?? "",
       ingredients: defaultValues?.ingredients ?? [
         { amount: "", unit: "", ingredientName: "" },
       ],
@@ -240,6 +242,28 @@ export default function AddRecipeForm({ defaultValues, id }: Props) {
                   availableTags={availableTags}
                   onChange={(tags) => field.handleChange(tags)}
                 />
+              </Field>
+            )}
+          </form.Field>
+          <form.Field name="notes">
+            {(field) => (
+              <Field>
+                <FieldLabel htmlFor="recipeDescription">
+                  Recipes Notes
+                </FieldLabel>
+                <Textarea
+                  id="notes"
+                  placeholder="Notes about the recipe"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  rows={8}
+                />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-destructive">
+                    {field.state.meta.errors[0]?.message}
+                  </p>
+                )}
               </Field>
             )}
           </form.Field>

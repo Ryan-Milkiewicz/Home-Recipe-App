@@ -7,6 +7,7 @@ export type Recipe = {
   servings: number;
   webUrl?: string;
   imageUrl?: string;
+  notes?: string;
   createdAt: Date;
   ingredients: Ingredient[];
   steps: Step[];
