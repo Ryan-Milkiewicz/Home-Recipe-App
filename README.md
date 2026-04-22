@@ -7,19 +7,23 @@ A simple, clean, and customizable app for managing your personal recipe collecti
 ## ✨ Features
 
 * 📖 **Create & Store Recipes**
+
   Add ingredients, instructions, cooking time, and notes.
+* 🚀 **Scrape Recipes**
 
-* 🚀 **Scrape** recipes from the web to auto-populate all fields.
-
+  Auto-populate all fields from the web.
 * 🔍 **Search & Filter**
-  Quickly find recipes by name
 
+  Quickly find recipes by name.
 * 🏷️ **Categories & Tags**
+
   Organize meals by cuisine, dietary preference, or occasion.
+* ⭐ **Favorite Recipes**
 
+  Save your go-to meals for quick access anytime.
 * 📱 **Responsive Design**
-  Works on desktop, tablet, and mobile devices.
 
+  Works on desktop, tablet, and mobile devices.
 ---
 
 ## 🚀 Getting Started
