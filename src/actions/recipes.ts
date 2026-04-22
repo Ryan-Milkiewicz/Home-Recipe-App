@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/index";
-import { eq, and } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import {
   recipeTable,
   ingredientTable,
@@ -127,6 +127,29 @@ export async function createRecipe(value: any) {
     }
   }
   return recipe;
+}
+
+export async function getFavoriteRecipes() {
+  const favorites = await db
+    .select()
+    .from(favoriteTable)
+    .innerJoin(recipeTable, eq(favoriteTable.recipeId, recipeTable.id));
+
+  const recipeIds = favorites.map((f) => f.recipes.id);
+
+  if (recipeIds.length === 0) return [];
+
+  return await db.query.recipeTable.findMany({
+    orderBy: (recipes, { asc }) => [asc(recipes.title)],
+    where: inArray(recipeTable.id, recipeIds),
+    with: {
+      recipeTags: {
+        with: {
+          tag: true,
+        },
+      },
+    },
+  });
 }
 
 export async function toggleRecipeFavorite(recipeId: number) {

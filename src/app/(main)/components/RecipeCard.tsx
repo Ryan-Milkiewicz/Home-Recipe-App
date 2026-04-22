@@ -15,7 +15,7 @@ type Props = {
   id: number;
   title: string;
   description: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   cookTime: number;
   servings: number;
   tags?: Tag[];
