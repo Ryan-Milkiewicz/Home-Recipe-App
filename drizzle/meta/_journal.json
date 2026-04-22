@@ -71,6 +71,13 @@
       "when": 1776002970360,
       "tag": "0009_small_ultimates",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1776862264429,
+      "tag": "0010_magical_hellcat",
+      "breakpoints": true
     }
   ]
 }

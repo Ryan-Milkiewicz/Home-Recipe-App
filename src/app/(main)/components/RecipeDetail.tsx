@@ -94,6 +94,13 @@ export default function RecipeDetail({
         onServingsChange={setServings}
       />
       <Separator className="my-4 w-full" />
+      {recipe.notes && (
+        <>
+          <h2 className="text-2xl font-semibold mt-4">Notes</h2>
+          <p className="mt-2 text-muted-foreground">{recipe.notes}</p>
+          <Separator className="my-4 w-full" />
+        </>
+      )}
       <RecipeIngredients
         steps={steps}
         baseServings={BASE_SERVINGS}
