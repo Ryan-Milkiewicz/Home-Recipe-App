@@ -1,11 +1,12 @@
 import {
   getAllRecipes,
   getRecipesByTag,
-  isFavorited,
   searchRecipesByName,
   toggleRecipeFavorite,
 } from "@/actions/recipes";
 import RecipeCard from "../components/RecipeCard";
+import { favoriteTable } from "@/db/schema";
+import { db } from "@/index";
 
 export default async function Page({
   searchParams,
@@ -14,6 +15,11 @@ export default async function Page({
 }) {
   // TODO: add real images
   const { tag, search } = await searchParams;
+  const favorites = await db.select().from(favoriteTable);
+  const favoriteIds = new Set(
+    favorites.map((f: { recipeId: number }) => f.recipeId),
+  );
+
   const recipes = search
     ? await searchRecipesByName(search)
     : tag
@@ -33,7 +39,7 @@ export default async function Page({
             servings={recipe.servings}
             imageUrl={recipe.imageUrl ? recipe.imageUrl : ""}
             tags={recipe.recipeTags.map((rt) => rt.tag)}
-            isFavorited={await isFavorited(recipe.id)}
+            isFavorited={favoriteIds.has(recipe.id)}
             toggleFavorite={toggleRecipeFavorite}
           />
         ))

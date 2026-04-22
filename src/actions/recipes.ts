@@ -143,15 +143,6 @@ export async function toggleRecipeFavorite(recipeId: number) {
   revalidatePath("/recipes");
 }
 
-export async function isFavorited(recipeId: number) {
-  const [existing] = await db
-    .select()
-    .from(favoriteTable)
-    .where(eq(favoriteTable.recipeId, recipeId));
-
-  return existing ? true : false;
-}
-
 export async function editRecipe(id: number, value: any) {
   // If a new image is being set, delete the old one from UploadThing
   if (value.imageUrl) {
