@@ -10,7 +10,7 @@ const meals = [
 export default function CurrentMonth() {
   return (
     <div className="bg-white rounded-2xl border border-border overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-4">
+      <div className="flex items-center justify-between bg-muted px-5 py-4">
         <h2 className="text-xl font-bold">This Month</h2>
         <span className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
           {meals.length} meals
