@@ -7,8 +7,10 @@ import {
   stepTable,
   tagTable,
   recipeTagTable,
+  favoriteTable,
 } from "@/db/schema";
 import { UTApi } from "uploadthing/server";
+import { revalidatePath } from "next/cache";
 
 const utapi = new UTApi();
 
@@ -125,6 +127,29 @@ export async function createRecipe(value: any) {
     }
   }
   return recipe;
+}
+
+export async function toggleRecipeFavorite(recipeId: number) {
+  const [existing] = await db
+    .select()
+    .from(favoriteTable)
+    .where(eq(favoriteTable.recipeId, recipeId));
+
+  if (existing) {
+    await db.delete(favoriteTable).where(eq(favoriteTable.recipeId, recipeId));
+  } else {
+    await db.insert(favoriteTable).values({ recipeId });
+  }
+  revalidatePath("/recipes");
+}
+
+export async function isFavorited(recipeId: number) {
+  const [existing] = await db
+    .select()
+    .from(favoriteTable)
+    .where(eq(favoriteTable.recipeId, recipeId));
+
+  return existing ? true : false;
 }
 
 export async function editRecipe(id: number, value: any) {

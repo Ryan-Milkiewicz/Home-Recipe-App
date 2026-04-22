@@ -1,3 +1,4 @@
+"use client";
 import { convertToHoursAndMinutes } from "../../../lib/helper";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
@@ -18,6 +19,8 @@ type Props = {
   cookTime: number;
   servings: number;
   tags?: Tag[];
+  isFavorited: boolean;
+  toggleFavorite: (id: number) => void;
 };
 
 export default function RecipeCard({
@@ -28,6 +31,8 @@ export default function RecipeCard({
   cookTime,
   servings,
   tags,
+  isFavorited,
+  toggleFavorite,
 }: Props) {
   return (
     <Link href={`/recipes/${id}`} className="h-full">
@@ -78,18 +83,26 @@ export default function RecipeCard({
           <div className="flex items-end">
             <Tooltip>
               <TooltipTrigger asChild>
-                <button className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors">
+                <button
+                  className="bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleFavorite(id);
+                  }}
+                >
                   <HugeiconsIcon
                     icon={StarIcon}
                     size={18}
-                    color="black"
-                    fill="white"
+                    color={isFavorited ? "gold" : "black"}
+                    fill={isFavorited ? "gold" : "white"}
                     strokeWidth={2}
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Add to favorites</p>
+                <p>
+                  {isFavorited ? "Remove from favorites" : "Add to favorites!"}
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
