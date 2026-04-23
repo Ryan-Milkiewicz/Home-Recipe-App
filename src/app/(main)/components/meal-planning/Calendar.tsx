@@ -3,10 +3,11 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useState } from "react";
+import { Event } from "./MealPlanningClient";
 
 type Props = {
-  events: [];
-  onEventClick: (event: any) => void;
+  events: Event[];
+  onEventClick: (event: Event) => void;
   onDateClick: (dateStr: string) => void;
 };
 
@@ -32,7 +33,12 @@ export default function Calendar({ events, onEventClick, onDateClick }: Props) {
         }}
         eventClick={(arg) => {
           setSelectedDate(arg.event.startStr.split("T")[0]);
-          onEventClick(arg.event);
+          onEventClick({
+            id: arg.event.id,
+            title: arg.event.title,
+            date: arg.event.startStr,
+          });
+          //onEventClick(arg.event);
         }}
         // eventClick={(arg) => onEventClick(arg.event)}
         // dateClick={onDateClick}

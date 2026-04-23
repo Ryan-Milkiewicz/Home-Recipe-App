@@ -4,10 +4,20 @@ import Calendar from "./Calendar";
 import DaySelector from "./DaySelector";
 import CurrentMonth from "./CurrentMonth";
 
+export type Event = {
+  id: string;
+  title: string;
+  date: string;
+};
+
 export default function MealPlanningClient() {
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState<Event>({
+    id: "",
+    title: "",
+    date: "",
+  });
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [events, setEvents] = useState([
+  const [events, setEvents] = useState<Event[]>([
     { id: "1", title: "Pizza", date: "2026-04-24" },
     { id: "2", title: "Steak", date: "2026-04-23" },
   ]);
@@ -15,9 +25,9 @@ export default function MealPlanningClient() {
   //console.log(selectedEvent.title);
   //console.log(selectedEvent);
 
-  const handleEventClick = (event) => {
+  const handleEventClick = (event: Event) => {
     setSelectedEvent(event);
-    setSelectedDate(event.startStr.split("T")[0]);
+    setSelectedDate(event.date.split("T")[0]);
   };
 
   const handleDateClick = (dateStr: string) => {
