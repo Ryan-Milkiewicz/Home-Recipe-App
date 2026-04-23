@@ -11,11 +11,14 @@ export type Event = {
 };
 
 export default function MealPlanningClient() {
-  const [selectedEvent, setSelectedEvent] = useState<Event>({
-    id: "",
-    title: "",
-    date: "",
-  });
+  //   const [selectedEvent, setSelectedEvent] = useState<Event| null>({
+  //     id: "",
+  //     title: "",
+  //     date: "",
+  //   });
+
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [events, setEvents] = useState<Event[]>([
     { id: "1", title: "Pizza", date: "2026-04-24" },
