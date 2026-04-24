@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 type Props = {
   title?: string;
@@ -9,11 +9,8 @@ type Props = {
 };
 
 export default function DaySelector({ title, onSave }: Props) {
-  const [meal, setMeal] = useState<string>("");
+  const [meal, setMeal] = useState<string>(title || "");
 
-  useEffect(() => {
-    setMeal(title || "");
-  }, [title]);
   return (
     <div className="w-full flex flex-col border border-border rounded-2xl overflow-hidden hover:shadow-sm transition-shadow cursor-pointer">
       <div className="h-40 bg-muted flex flex-col items-center justify-center gap-1">

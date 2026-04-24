@@ -11,22 +11,12 @@ export type Event = {
 };
 
 export default function MealPlanningClient() {
-  //   const [selectedEvent, setSelectedEvent] = useState<Event| null>({
-  //     id: "",
-  //     title: "",
-  //     date: "",
-  //   });
-
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [events, setEvents] = useState<Event[]>([
     { id: "1", title: "Pizza", date: "2026-04-24" },
     { id: "2", title: "Steak", date: "2026-04-23" },
   ]);
-
-  //console.log(selectedEvent.title);
-  //console.log(selectedEvent);
 
   const handleEventClick = (event: Event) => {
     setSelectedEvent(event);
@@ -37,10 +27,6 @@ export default function MealPlanningClient() {
     setSelectedEvent(null);
     setSelectedDate(dateStr);
   };
-
-  //   const handleDateClick = () => {
-  //     setSelectedEvent(null);
-  //   };
 
   const handleSave = (title: string) => {
     if (!selectedDate || !title.trim()) return;
@@ -60,7 +46,11 @@ export default function MealPlanningClient() {
         />
       </div>
       <div className="flex flex-col items-stretch justify-start gap-4">
-        <DaySelector title={selectedEvent?.title ?? ""} onSave={handleSave} />
+        <DaySelector
+          key={selectedDate}
+          title={selectedEvent?.title ?? ""}
+          onSave={handleSave}
+        />
         <CurrentMonth />
       </div>
     </div>
