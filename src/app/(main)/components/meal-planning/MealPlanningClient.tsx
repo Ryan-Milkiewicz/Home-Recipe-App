@@ -3,26 +3,30 @@ import { useState } from "react";
 import Calendar from "./Calendar";
 import DaySelector from "./DaySelector";
 import CurrentMonth from "./CurrentMonth";
+import { saveEvent } from "@/actions/events";
 
 export type Event = {
-  id: string;
+  id?: number;
   title: string;
+  //date: Date;
   date: string;
 };
 
 type Recipe = { id: number; title: string };
 
 type Props = {
+  events: Event[];
   recipes: Recipe[];
+  //onSave: (event: Event) => void;
 };
 
-export default function MealPlanningClient({ recipes }: Props) {
+export default function MealPlanningClient({ events, recipes }: Props) {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [events, setEvents] = useState<Event[]>([
-    { id: "1", title: "Pizza", date: "2026-04-24" },
-    { id: "2", title: "Steak", date: "2026-04-23" },
-  ]);
+  // const [events, setEvents] = useState<Event[]>([
+  //   { id: "1", title: "Pizza", date: "2026-04-24" },
+  //   { id: "2", title: "Steak", date: "2026-04-23" },
+  // ]);
 
   const handleEventClick = (event: Event) => {
     setSelectedEvent(event);
@@ -32,15 +36,12 @@ export default function MealPlanningClient({ recipes }: Props) {
   const handleDateClick = (dateStr: string) => {
     setSelectedEvent(null);
     setSelectedDate(dateStr);
-    //const day = new Date(dateStr).getDate();
   };
 
-  const handleSave = (title: string) => {
-    if (!selectedDate || !title.trim()) return;
-    setEvents((prev) => [
-      ...prev.filter((e) => e.date !== selectedDate), // replace if exists
-      { id: selectedDate, title, date: selectedDate },
-    ]);
+  const handleSave = async (recipeId: number) => {
+    if (!selectedDate) return;
+    console.log(recipeId, selectedDate);
+    await saveEvent(recipeId, selectedDate);
   };
 
   return (

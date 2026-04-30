@@ -4,6 +4,7 @@ import {
   numeric,
   pgTable,
   text,
+  date,
   timestamp,
   unique,
   varchar,
@@ -66,6 +67,14 @@ export const favoriteTable = pgTable(
   },
   (table) => [unique().on(table.recipeId)],
 );
+
+export const eventsTable = pgTable("events", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  recipeId: integer()
+    .notNull()
+    .references(() => recipeTable.id),
+  date: date().notNull().unique(),
+});
 
 // Relations
 export const recipeRelations = relations(recipeTable, ({ many }) => ({

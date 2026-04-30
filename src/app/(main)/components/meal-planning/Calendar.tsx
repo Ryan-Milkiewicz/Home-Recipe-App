@@ -34,7 +34,7 @@ export default function Calendar({ events, onEventClick, onDateClick }: Props) {
         eventClick={(arg) => {
           setSelectedDate(arg.event.startStr.split("T")[0]);
           onEventClick({
-            id: arg.event.id,
+            id: Number(arg.event.id),
             title: arg.event.title,
             date: arg.event.startStr,
           });
@@ -52,11 +52,7 @@ export default function Calendar({ events, onEventClick, onDateClick }: Props) {
           center: "title",
           right: "today prev next",
         }}
-        events={events}
-        // events={[
-        //   { id: "1", title: "Pizza", date: "2026-04-24" },
-        //   { id: "2", title: "Steak", date: "2026-04-23" },
-        // ]}
+        events={events.map((e) => ({ ...e, id: String(e.id) }))}
       />
     </div>
   );

@@ -8,18 +8,22 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 type Props = {
   title?: string;
   day?: string;
   recipes: { id: number; title: string }[];
-  onSave: (title: string) => void;
+  onSave: (recipeId: number) => void;
+  //onSave: (title: string) => void;
 };
 
 export default function DaySelector({ title, day, recipes, onSave }: Props) {
   const [meal, setMeal] = useState<string>(title || "");
+  const [selectedRecipe, setSelectedRecipe] = useState<{
+    id: number;
+    title: string;
+  } | null>(null);
 
   const formatDay = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -54,7 +58,12 @@ export default function DaySelector({ title, day, recipes, onSave }: Props) {
         <Combobox
           items={recipes}
           value={meal}
-          onValueChange={(val) => setMeal(val ?? "")}
+          onValueChange={(val) => {
+            setMeal(val ?? "");
+            const found = recipes.find((r) => r.title === val);
+            setSelectedRecipe(found ?? null);
+          }}
+          // onValueChange={(val) => setMeal(val ?? "")}
         >
           <ComboboxInput placeholder="Select a Recipe" />
           <ComboboxContent>
@@ -64,13 +73,15 @@ export default function DaySelector({ title, day, recipes, onSave }: Props) {
                 <ComboboxItem
                   key={item.id}
                   value={item.title}
-                  onSelect={() => setMeal(item.title)}
+                  //onSelect={() => console.log(item)}
+                  // onSelect={() => {
+                  //   console.log("selected", item);
+                  //   setSelectedRecipe(item);
+                  // }}
+                  //onSelect={() => setMeal(item.title)}
                 >
                   {item.title}
                 </ComboboxItem>
-                // <ComboboxItem key={item.id} value={item.title}>
-                //   {item.title}
-                // </ComboboxItem>
               )}
             </ComboboxList>
           </ComboboxContent>
@@ -83,7 +94,8 @@ export default function DaySelector({ title, day, recipes, onSave }: Props) {
         /> */}
         <Button
           className="mt-2 bg-black text-white"
-          onClick={() => onSave(meal)}
+          onClick={() => selectedRecipe && onSave(selectedRecipe.id)}
+          //onClick={() => onSave(meal)}
         >
           Save
         </Button>

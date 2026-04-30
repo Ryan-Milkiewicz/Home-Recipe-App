@@ -85,6 +85,13 @@
       "when": 1776865754805,
       "tag": "0011_mysterious_cassandra_nova",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1777570341830,
+      "tag": "0012_zippy_the_hand",
+      "breakpoints": true
     }
   ]
 }

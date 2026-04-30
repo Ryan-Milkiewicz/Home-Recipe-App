@@ -1,5 +1,8 @@
-import { recipeTable } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { saveEvent } from "@/actions/events";
+import { eventsTable, recipeTable } from "@/db/schema";
 import MealPlanningClient from "../components/meal-planning/MealPlanningClient";
+import { Event } from "../components/meal-planning/MealPlanningClient";
 import { db } from "@/index";
 
 export default async function MealPlanning() {
@@ -10,12 +13,27 @@ export default async function MealPlanning() {
     })
     .from(recipeTable);
 
-  console.log(recipes);
+  const events = await db
+    .select({
+      id: eventsTable.id,
+      title: recipeTable.title,
+      date: eventsTable.date,
+    })
+    .from(eventsTable)
+    .innerJoin(recipeTable, eq(eventsTable.recipeId, recipeTable.id));
+
+  // const handleSave = async (event: Event) => {
+  //   await saveEvent(event.id!, event.date);
+  // };
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4">Meal Planner</h1>
-      <MealPlanningClient recipes={recipes} />
+      <MealPlanningClient
+        events={events}
+        recipes={recipes}
+        // onSave={handleSave}
+      />
     </div>
   );
 }
