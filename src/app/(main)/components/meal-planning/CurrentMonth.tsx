@@ -1,12 +1,3 @@
-const meals = [
-  { day: 3, name: "Spaghetti Bolognese" },
-  { day: 7, name: "Chicken Stir Fry" },
-  { day: 12, name: "Tacos" },
-  { day: 18, name: "Grilled Salmon" },
-  { day: 22, name: "Mushroom Risotto" },
-  { day: 25, name: "BBQ Ribs" },
-];
-
 type MonthlyMeals = { id: number; title: string; date: string; day: number };
 
 type Props = {
