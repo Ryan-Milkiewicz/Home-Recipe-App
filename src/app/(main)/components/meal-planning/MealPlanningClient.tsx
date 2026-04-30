@@ -26,6 +26,7 @@ export default function MealPlanningClient() {
   const handleDateClick = (dateStr: string) => {
     setSelectedEvent(null);
     setSelectedDate(dateStr);
+    //const day = new Date(dateStr).getDate();
   };
 
   const handleSave = (title: string) => {
@@ -49,6 +50,7 @@ export default function MealPlanningClient() {
         <DaySelector
           key={selectedDate}
           title={selectedEvent?.title ?? ""}
+          day={selectedDate ?? ""}
           onSave={handleSave}
         />
         <CurrentMonth />
