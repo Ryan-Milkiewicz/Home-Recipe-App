@@ -1,8 +1,6 @@
 import { eq } from "drizzle-orm";
-import { saveEvent } from "@/actions/events";
 import { eventsTable, recipeTable } from "@/db/schema";
 import MealPlanningClient from "../components/meal-planning/MealPlanningClient";
-import { Event } from "../components/meal-planning/MealPlanningClient";
 import { db } from "@/index";
 
 export default async function MealPlanning() {
@@ -21,10 +19,6 @@ export default async function MealPlanning() {
     })
     .from(eventsTable)
     .innerJoin(recipeTable, eq(eventsTable.recipeId, recipeTable.id));
-
-  // const handleSave = async (event: Event) => {
-  //   await saveEvent(event.id!, event.date);
-  // };
 
   return (
     <div className="p-6">

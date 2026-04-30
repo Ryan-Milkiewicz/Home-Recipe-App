@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useState } from "react";
-import { Event } from "./MealPlanningClient";
+import { Event } from "@/lib/types/event";
 
 type Props = {
   events: Event[];
@@ -13,13 +13,6 @@ type Props = {
 
 export default function Calendar({ events, onEventClick, onDateClick }: Props) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  //const handleDateClick = (arg) => {};
-
-  //   const handleEventClick = (event) => {
-  //     const date = event.startStr;
-  //     const title = event.title;
-  //     const id = event.id;
-  //   };
 
   return (
     <div className="w-full h-full rounded-2xl border border-border overflow-hidden [&_.fc]:p-4 [&_.fc-toolbar-title]:text-lg [&_.fc-toolbar-title]:font-semibold [&_.selected-day]:bg-muted">
