@@ -7,13 +7,19 @@ import { useState } from "react";
 import { saveEvent } from "@/actions/events";
 
 type Recipe = { id: number; title: string };
+type MonthlyMeals = { id: number; title: string; date: string; day: number };
 
 type Props = {
   events: Event[];
   recipes: Recipe[];
+  monthlyMeals: MonthlyMeals[];
 };
 
-export default function MealPlanningClient({ events, recipes }: Props) {
+export default function MealPlanningClient({
+  events,
+  recipes,
+  monthlyMeals,
+}: Props) {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
@@ -50,7 +56,7 @@ export default function MealPlanningClient({ events, recipes }: Props) {
           recipes={recipes}
           onSave={handleSave}
         />
-        <CurrentMonth />
+        <CurrentMonth monthlyMeals={monthlyMeals} />
       </div>
     </div>
   );

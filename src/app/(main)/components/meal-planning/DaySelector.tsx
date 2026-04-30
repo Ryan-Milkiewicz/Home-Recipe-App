@@ -15,7 +15,6 @@ type Props = {
   day?: string;
   recipes: { id: number; title: string }[];
   onSave: (recipeId: number) => void;
-  //onSave: (title: string) => void;
 };
 
 export default function DaySelector({ title, day, recipes, onSave }: Props) {
