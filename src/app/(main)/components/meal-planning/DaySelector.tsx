@@ -1,15 +1,24 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 type Props = {
   title?: string;
   day?: string;
+  recipes: { id: number; title: string }[];
   onSave: (title: string) => void;
 };
 
-export default function DaySelector({ title, day, onSave }: Props) {
+export default function DaySelector({ title, day, recipes, onSave }: Props) {
   const [meal, setMeal] = useState<string>(title || "");
 
   const formatDay = (dateStr: string) => {
@@ -18,6 +27,7 @@ export default function DaySelector({ title, day, onSave }: Props) {
       month: "long",
       timeZone: "UTC",
     });
+
     const day = date.getUTCDate();
     const suffix =
       day % 10 === 1 && day !== 11
@@ -41,12 +51,36 @@ export default function DaySelector({ title, day, onSave }: Props) {
         </p>
       </div>
       <div className="flex flex-col gap-1 flex-1 justify-between p-3">
-        <Input
+        <Combobox
+          items={recipes}
+          value={meal}
+          onValueChange={(val) => setMeal(val ?? "")}
+        >
+          <ComboboxInput placeholder="Select a Recipe" />
+          <ComboboxContent>
+            <ComboboxEmpty>No items found.</ComboboxEmpty>
+            <ComboboxList>
+              {(item) => (
+                <ComboboxItem
+                  key={item.id}
+                  value={item.title}
+                  onSelect={() => setMeal(item.title)}
+                >
+                  {item.title}
+                </ComboboxItem>
+                // <ComboboxItem key={item.id} value={item.title}>
+                //   {item.title}
+                // </ComboboxItem>
+              )}
+            </ComboboxList>
+          </ComboboxContent>
+        </Combobox>
+        {/* <Input
           type="text"
           placeholder="e.g. Pizza"
           value={meal}
           onChange={(e) => setMeal(e.target.value)}
-        />
+        /> */}
         <Button
           className="mt-2 bg-black text-white"
           onClick={() => onSave(meal)}

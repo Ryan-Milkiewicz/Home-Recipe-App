@@ -10,7 +10,13 @@ export type Event = {
   date: string;
 };
 
-export default function MealPlanningClient() {
+type Recipe = { id: number; title: string };
+
+type Props = {
+  recipes: Recipe[];
+};
+
+export default function MealPlanningClient({ recipes }: Props) {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [events, setEvents] = useState<Event[]>([
@@ -51,6 +57,7 @@ export default function MealPlanningClient() {
           key={selectedDate}
           title={selectedEvent?.title ?? ""}
           day={selectedDate ?? ""}
+          recipes={recipes}
           onSave={handleSave}
         />
         <CurrentMonth />
