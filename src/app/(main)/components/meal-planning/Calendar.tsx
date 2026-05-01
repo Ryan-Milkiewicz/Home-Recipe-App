@@ -31,10 +31,7 @@ export default function Calendar({ events, onEventClick, onDateClick }: Props) {
             title: arg.event.title,
             date: arg.event.startStr,
           });
-          //onEventClick(arg.event);
         }}
-        // eventClick={(arg) => onEventClick(arg.event)}
-        // dateClick={onDateClick}
         dayCellClassNames={(arg) =>
           arg.date.toISOString().split("T")[0] === selectedDate
             ? ["selected-day"]

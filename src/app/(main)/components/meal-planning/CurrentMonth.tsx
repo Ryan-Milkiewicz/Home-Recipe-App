@@ -1,4 +1,4 @@
-type MonthlyMeals = { id: number; title: string; date: string; day: number };
+import { MonthlyMeals } from "@/lib/types/event";
 
 type Props = {
   monthlyMeals: MonthlyMeals[];

@@ -2,12 +2,12 @@
 import Calendar from "./Calendar";
 import CurrentMonth from "./CurrentMonth";
 import DaySelector from "./DaySelector";
+import { MonthlyMeals } from "@/lib/types/event";
 import { Event } from "@/lib/types/event";
 import { useState } from "react";
 import { saveEvent } from "@/actions/events";
 
 type Recipe = { id: number; title: string };
-type MonthlyMeals = { id: number; title: string; date: string; day: number };
 
 type Props = {
   events: Event[];
