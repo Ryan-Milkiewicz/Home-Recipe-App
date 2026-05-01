@@ -10,7 +10,7 @@ export default function CurrentMonth({ monthlyMeals }: Props) {
       <div className="flex items-center justify-between bg-muted px-5 py-4">
         <h2 className="text-xl font-bold">This Month</h2>
         <span className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
-          {monthlyMeals.length} meals
+          {monthlyMeals.length} {monthlyMeals.length === 1 ? "meal" : "meals"}
         </span>
       </div>
 
