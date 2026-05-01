@@ -62,39 +62,22 @@ export default function DaySelector({ title, day, recipes, onSave }: Props) {
             const found = recipes.find((r) => r.title === val);
             setSelectedRecipe(found ?? null);
           }}
-          // onValueChange={(val) => setMeal(val ?? "")}
         >
           <ComboboxInput placeholder="Select a Recipe" />
           <ComboboxContent>
             <ComboboxEmpty>No items found.</ComboboxEmpty>
             <ComboboxList>
               {(item) => (
-                <ComboboxItem
-                  key={item.id}
-                  value={item.title}
-                  //onSelect={() => console.log(item)}
-                  // onSelect={() => {
-                  //   console.log("selected", item);
-                  //   setSelectedRecipe(item);
-                  // }}
-                  //onSelect={() => setMeal(item.title)}
-                >
+                <ComboboxItem key={item.id} value={item.title}>
                   {item.title}
                 </ComboboxItem>
               )}
             </ComboboxList>
           </ComboboxContent>
         </Combobox>
-        {/* <Input
-          type="text"
-          placeholder="e.g. Pizza"
-          value={meal}
-          onChange={(e) => setMeal(e.target.value)}
-        /> */}
         <Button
           className="mt-2 bg-black text-white"
           onClick={() => selectedRecipe && onSave(selectedRecipe.id)}
-          //onClick={() => onSave(meal)}
         >
           Save
         </Button>
